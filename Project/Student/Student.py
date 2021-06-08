@@ -7,6 +7,7 @@ from wtforms.validators import InputRequired, EqualTo, length, NumberRange, Opti
 from wtforms.fields.html5 import DateField
 from flask_login import login_required, current_user, login_user
 from werkzeug.utils import secure_filename
+from base64 import b64encode
 import Proctor_Board.Project.app as app
 
 Students = Blueprint('Student', __name__, template_folder="templates", static_folder="static")
@@ -221,3 +222,17 @@ def ForgotPassword():
                 flash("Both the password should same")
                 return render_template("StudentForgotPassword.html", data=Student)
     return render_template("StudentForgotPassword.html")
+
+
+@Students.route("/display/<id>", methods = ['POST', 'GET'])
+def select(id):
+    if id:
+        Stu_Personal = app.Student_Personal.query.filter_by(USN = id).first()
+        Stu_Family = app.Student_Family.query.filter_by(USN = id).first()
+        Stu_Marks = app.Marks.query.filter_by(USN=id).all()
+        if Stu_Personal and Stu_Family:
+            image = b64encode(Stu_Personal.Image).decode("utf-8")
+            return render_template("StudentViewProfile.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks)
+        else:
+            "No data found"
+    return "Else display"
