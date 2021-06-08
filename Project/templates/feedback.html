@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}FeedBack{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <center>
+            <img src="../static/images/feedback.png" alt="feedback_image" style="height:25rem">
+          </center>
+        </div>
+        <div class="col-md-6">
+          <form action="{{ url_for('feedback') }}" method="post">
+          {{ form.csrf_token }}
+          <div class="col-md-8 mt-5">
+            <label for="" class="form-label">Name</label>
+            {{ form.Name(class_="form-control") }}
+          </div>
+          <div class="col-md-8 my-2">
+            <label for="" class="form-label">Designation</label>
+            {{ form.Designation(class_="form-control") }}
+          </div>
+          <div class="col-md-8 my-2">
+            <label for="" class="form-label">Feedback</label>
+            {{ form.Feedback(class_="form-control") }}
+          </div>
+          <button type="submit" class="btn btn-primary" name="button">Submit</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+{% endblock body%}

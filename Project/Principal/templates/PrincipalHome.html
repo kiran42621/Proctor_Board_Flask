@@ -1,0 +1,108 @@
+{% extends "Principallayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<!--Announcements-->
+<div class="container-fluid position-relative"  >
+    <div class="container py-2">
+      <table class="table table-striped table-hover">
+        <center>
+    <thead>
+      <tr>
+        <th scope="col-1">Sl. no</th>
+        <th scope="col-1">Date</th>
+        <th scope="col-8">Announcements</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+      </tr>
+    </tbody>
+  </center>
+  </table>
+    </div>
+  </div>
+<hr>
+  <!--Search Table-->
+
+      <div class="container my-5">
+        <div class="container bg-light p-3">
+          <div class="row">
+
+<div class="col-3">
+  <center>
+    <label class="form-label"> Search by </label>
+  </center>
+
+</div>
+<div class="col-3">
+  <select id="inputState" class="form-select">
+      <option selected>Choose...</option>
+      <option>...</option>
+    </select>
+</div>
+<div class="col-3">
+  <input type="text" class="form-control" name="" value="" placeholder="Enter Search String">
+</div>
+<div class="col-3">
+  <button type="button" class="btn btn-outline-primary" name="btn-search">Search</button>
+</div>
+        </div>
+        <!-- Table -->
+        <div class="pt-4">
+          <table id="myTable" class="table table-striped" style="width:100%">
+            <thead>
+                    <tr>
+                        <th>Sl no.</th>
+                        <th>USN Number</th>
+                        <th>Name</th>
+                        <th>Mobile Number</th>
+                        <th>Date Of Birth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for rows in data %}
+                    <tr>
+                        <td>{{ rows }}</td>
+                        <td><a href="/Principal/display/{{rows['USN']}}">{{rows['USN']}}</a></td>
+                        <td>{{ rows['Name'] }}</td>
+                        <td>{{ rows['Mobile'] }}</td>
+                        <td>{{ rows['DOB'] }}</td>
+                    </tr>
+                {% endfor %}
+                  </tbody>
+          </table>
+      </div>
+      </div>
+</div>
+
+
+{% endblock body%}
+
+{% block Modal %}
+
+{% endblock %}
+
+{% block jscript %}
+<script type="text/javascript">
+    $(document).ready( function () {
+      $('#myTable').DataTable();
+    } );
+});
+    </script>
+{% endblock jscript %}

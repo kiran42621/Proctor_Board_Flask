@@ -1,0 +1,111 @@
+{% extends "Proctorlayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="container-fluid">
+    <div class="container bg-light py-3">
+      <form class="row g-3" action="/Proctor/ProctorRegister" method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <h2>Personal Details</h2>
+        <div class="col-md-6">
+          <label for="inputName" class="form-label">Name</label>
+          {{ form.Name(class_="form-control") }}
+          {% for errors in form.Name.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <label for="inputEmployeeId" class="form-label">Employee ID</label>
+          {{ form.EmployeeID(class_="form-control") }}
+          {% for errors in form.EmployeeID.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label for="inputDepartment" class="form-label">Department</label>
+          {{ form.Department(class_="form-control") }}
+          {% for errors in form.Department.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label for="inputMobile" class="form-label">Mobile No.</label>
+          {{ form.Mobile(class_="form-control") }}
+          {% for errors in form.Mobile.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+         <div class="col-md-4">
+          <label for="inputMobile" class="form-label">Blood Group</label>
+          {{ form.BloodGroup(class_="form-control") }}
+           {% for errors in form.BloodGroup.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <!--- Password Details -->
+        <h2>Password </h2>
+        <div class="col-6">
+          <label for="inputPassword" class="form-label">Enter Password</label>
+          {{ form.Password(class_="form-control") }}
+          {% for errors in form.Password.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-6">
+          <label for="inputRepassword" class="form-label">Re Enter Password</label>
+          {{ form.Confirm_Password(class_="form-control") }}
+          {% for errors in form.Confirm_Password.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-6">
+          <label for="inputFuturePlans" class="form-label">Password Recovery Question 1</label>
+          <label class="visually-hidden" for="RecoveryQuestion1">Preference</label>
+          {{ form.PasswordQ1(class_="form-control") }}
+          {{ form.PasswordA1(class_="form-control") }}
+          {% for errors in form.PasswordA1.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-6">
+          <label for="inputFuturePlans" class="form-label">Password Recovery Question 2</label>
+          <label class="visually-hidden" for="RecoveryQuestion2">Preference</label>
+          {{ form.PasswordQ2(class_="form-control") }}
+          {{ form.PasswordA2(class_="form-control") }}
+          {% for errors in form.PasswordA2.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock body%}

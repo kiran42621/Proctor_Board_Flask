@@ -1,0 +1,127 @@
+{% extends "ChiefProctorlayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="container my-3">
+    <center>
+        <h2 class="info-head"><strong>Student Information</strong></h2>
+      </center>
+    <div class="row mt-5">
+        <div class="col">
+          <h5 class="info-Detail">Name : {{ data.Name }}</h5>
+          <h5 class="info-Detail">Register Number : {{ data.USN }}</h5>
+          <h5 class="info-Detail">Program Enrolled : {{ data.ProgramEnrolled }}</h5>
+          <h5 class="info-Detail">Year of Enrolment : {{ data.Year }}</h5>
+          <h5 class="info-Detail">Semester : {{ data.Semester }}</h5>
+          <h5 class="info-Detail">Proctor : {{ data.Proctor }}</h5>
+          <h5 class="info-Detail">Gender : {{ data.Gender }}</h5>
+          <h5 class="info-Detail">Mobile Number : {{ data.Mobile }}</h5>
+          <h5 class="info-Detail">Date of Birth : {{ data.DOB }}</h5>
+          <h5 class="info-Detail">Email : {{ data.Email }}</h5>
+          <h5 class="info-Detail">Address : {{ data.Address }}</h5>
+          <h5 class="info-Detail">State : {{ data.State }}</h5>
+          <h5 class="info-Detail">zipcode : {{ data.Zipcode }}</h5>
+        </div>
+        <div class="col">
+          <img class="info-image img-responsive rounded float-end" src="data:;base64,{{ image }}" alt="image">
+        </div>
+      </div>
+    <hr>
+      <h3 class="info-Detail"><strong>Family Detail</strong></h3>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <h5 class="info-Detail">Father Name : {{ data2.Father_Name }}</h5>
+          <h5 class="info-Detail">Father Qualification : {{ data2.Father_Qualification }}</h5>
+          <h5 class="info-Detail">Father Profession : {{ data2.Father_Profession }}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5 class="info-Detail">Mother Name : {{ data2.Mother_Name }}</h5>
+          <h5 class="info-Detail">Mother Qualification : {{ data2.Mother_Qualification }}</h5>
+          <h5 class="info-Detail">Mother Profession : {{ data2.Mother_Profession }}</h5>
+        </div>
+        <br>
+      </div>
+    <div class="row mt-3">
+        {% if data2.Sibling1_Name %}
+        <div class="col-md-6">
+          <h5 class="info-Detail">Sibling 1 Name : Name</h5>
+          <h5 class="info-Detail">Sibling 1 Qualification : Qualification</h5>
+          <h5 class="info-Detail">Sibling 1 Profession : Profession</h5>
+        </div>
+        {% endif %}
+        {% if data2.Sibling2_Name %}
+        <div class="col-md-6">
+          <h5 class="info-Detail">Sibling 2 Name : Name</h5>
+          <h5 class="info-Detail">Sibling 2 Qualification : Qualification</h5>
+          <h5 class="info-Detail">Sibling 2 Profession : Profession</h5>
+        </div>
+        {% endif %}
+      </div>
+    <hr>
+      <h3 class="info-Detail"><strong>Academic Detail</strong></h3>
+      <div class="col-md">
+        <pre class="info-Text">  {{ data.Name }} has Studied SSLC in {{ data2.SSLC_Institute }} in the year of {{ data2.SSLC_Year }} with the percentage of {{ data2.SSLC_Percentage }}%.</pre>
+        <pre class="info-Text">  {{ data.Name }} has Studied PUC in {{ data2.SSLC_Institute }} in the year of {{ data2.PUC_Year }} with the percentage of {{ data2.PUC_Percentage }}%.</pre>
+      </div>
+      <hr>
+     <h3 class="info-Detail"><strong>General Details</strong></h3>
+      <div class="col-md-8">
+        <h5 class="info-Detail">Hobbies : {{ data.Hobbies }}</h5>
+        <h5 class="info-Detail">Part time jobs : {{ data2.Part_Time_Jobs }}</h5>
+        <h5 class="info-Detail">Future plans : {{ data.Future_Plans }}</h5>
+      </div>
+    <hr>
+      <h3 class="info-Detail"><strong>Marks</strong></h3>
+    <div class="col">
+        {% for i in range(data.Semester) %}
+
+        <h5 class="info-Detail"><strong>Semester : {{ i+1 }}</strong></h5>
+        {% for rows in datamarks %}
+        {% set count = i+1 %}
+        {% if count|string() in rows.Semester %}
+        <div class="row">
+        <div class="col-auto pe-3">
+          <h5 class="info-Detail">{{rows.Subject }}</h5>
+        </div>
+        <div class="col-auto">
+          <h5 class="info-Detail">{{rows.Marks}}</h5>
+        </div>
+        <div class="col-auto">
+          <h5 class="info-Detail">{{rows.Remarks}}</h5>
+        </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        <h5 class="info-Detail"><strong>Meeting Details :</strong></h5>
+        <div class="col-auto">
+          <h5 class="info-Detail">Date : 01/02/2003</h5>
+          <h5 class="info-Detail">Achievements / Difficulties : Text</h5>
+          <h5 class="info-Detail">Goal Setting : Text</h5>
+          <h5 class="info-Detail">Work Plan : Text</h5>
+        </div>
+      </div>
+      <hr>
+    <h3 class="info-Detail"><strong>Events Participated</strong></h3>
+      <div class="row">
+        <div class="col-auto">
+          <h5 class="info-Detail"><strong>Event Name</strong></h5>
+          <h5 class="info-Detail">Event 1</h5>
+        </div>
+        <div class="col-auto">
+          <h5 class="info-Detail"><strong>Prizes Won</strong></h5>
+          <h5 class="info-Detail">Prize 1</h5>
+        </div>
+      </div>
+    <div class="d-flex flex-row-reverse bd-highlight">
+    <a href="/ChiefProctor/Assign"><input class="btn btn-outline-success mt-3 bd-highlight" type="button" value="Back"></input></a>
+    </div>
+</div>
+{% endblock body%}

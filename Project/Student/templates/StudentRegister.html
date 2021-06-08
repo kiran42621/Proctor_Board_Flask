@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+
+
+{% for errors in form.SSLC_Institute.errors %}
+    <small class="form-text text-muted ">
+<!--        {% for error in errors%}-->
+<!--          <div class="alert-sm alert-danger" role="alert">-->
+<!--              {{ error }}-->
+<!--          </div>-->
+<!--        {% endfor %}-->
+      {{ errors }}
+    </small>
+{% endfor %}
+
+
+
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <div class="container-fluid bg-light">
+    <div class="container bg-light py-3">
+      <form class="row g-3" action="{{ url_for('Student.StudentRegister') }}" method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <!--- Personal Details -->
+        <h2>Personal Details</h2>
+        <div class="col-md-6">
+          <label for="" class="form-label">Name</label>
+          {{ form.Name(class_="form-control") }}
+          {% for errors in form.Name.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <label for="" class="form-label">Register Number</label>
+          {{ form.USN(class_="form-control") }}
+          {% for errors in form.USN.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label for="" class="form-label">Program Enrolled</label>
+          {{ form.Prog_Enrolled(class_="form-control") }}
+          {% for errors in form.Prog_Enrolled.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label for="" class="form-label">Year of Enrollment</label>
+          {{ form.Year(class_="form-control", type="number") }}
+          {% for errors in form.Year.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label for="" class="form-label">Semester</label>
+          {{ form.Semester(class_="form-control") }}
+          {% for errors in form.Semester.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-2">
+          <label for="" class="form-label">Gender</label>
+          {{ form.Gender(class_="") }}
+          {% for errors in form.Gender.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-3">
+          <label for="" class="form-label">Mobile No.</label>
+          {{ form.Mobile(class_="form-control", type="number") }}
+          {% for errors in form.Mobile.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Date of Birth</label>
+          {{ form.DOB(class_="form-control") }}
+          {% for errors in form.DOB.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Upload Image</label>
+          {{ form.Image(class_="form-control") }}
+          {% for errors in form.Image.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Email id</label>
+          {{ form.Email(class_="form-control", type="email") }}
+          {% for errors in form.Email.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Blood Group</label>
+          {{ form.BloodGroup(class_="form-control") }}
+          {% for errors in form.BloodGroup.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-12">
+          <label class="form-label">Address</label>
+          {{ form.Address(class_="form-control") }}
+          {% for errors in form.Address.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">City</label>
+          {{ form.City(class_="form-control") }}
+          {% for errors in form.City.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">State</label>
+          {{ form.State(class_="form-control") }}
+          {% for errors in form.State.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Zipcode</label>
+          {{ form.Zipcode(class_="form-control") }}
+          {% for errors in form.Zipcode.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+        </div><br>
+        <!--- Family Details -->
+        <h2>Family Details</h2>
+        <table class="table">
+          <center>
+            <thead>
+              <tr>
+                <th scope="col">Relationship</th>
+                <th scope="col">Name</th>
+                <th scope="col">Qualification</th>
+                <th scope="col">Profession</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Father</th>
+                <td>{{ form.Father_Name }}</td>
+                <td>{{ form.Father_Qualification }}</td>
+                <td>{{ form.Father_Profession }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Mother</th>
+                <td>{{ form.Mother_Name }}</td>
+                <td>{{ form.Mother_Qualification }}</td>
+                <td>{{ form.Mother_Profession }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Sibling 1</th>
+                <td>{{ form.Sibling1_Name }}</td>
+                <td>{{ form.Sibling1_Qualification }}</td>
+                <td>{{ form.Sibling1_Profession }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Sibling 2</th>
+                <td>{{ form.Sibling2_Name }}</td>
+                <td>{{ form.Sibling2_Qualification }}</td>
+                <td>{{ form.Sibling2_Profession }}</td>
+              </tr>
+            </tbody>
+          </center>
+        </table>
+        <!--- Academic Details -->
+        <h2>Academic Details</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name of Institution</th>
+              <th scope="col">Year of Passing</th>
+              <th scope="col">Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">SSLC</th>
+              <td>{{ form.SSLC_Institute }}{% for errors in form.SSLC_Institute.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}</td>
+              <td>{{ form.SSLC_Year }}{% for errors in form.SSLC_Year.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}</td>
+              <td>{{ form.SSLC_Percentage }}{% for errors in form.SSLC_Percentage.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}</td>
+            </tr>
+            <tr>
+              <th scope="row">PUC</th>
+              <td>{{ form.PUC_Institute }}{% for errors in form.PUC_Institute.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}</td>
+              <td>{{ form.PUC_Year }}{% for errors in form.PUC_Year.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}</td>
+              <td>{{ form.PUC_Percentage }}{% for errors in form.PUC_Percentage.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!--- General Details -->
+        <h2>General Details</h2>
+        <div class="col-12">
+          <label class="form-label">Hobbies</label>
+          <p style="color:blue">(Note: You can enter one or more hobbies seperated by ',')</p>
+          {{ form.Hobbies(class_="form-control") }}
+          {% for errors in form.Hobbies.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}
+        </div>
+        <div class="col-6">
+          <label class="form-label">Part-Time jobs <span>(If yes specify nature of job)</span></label>
+          <input type="text" class="form-control" id="">
+        </div>
+        <div class="col-6">
+          <label class="form-label">Future Plans</label>
+          <input type="text" class="form-control" id="inputAddress2">
+        </div>
+        <!--- Password Details -->
+        <h2>Password </h2>
+        {% for errors in form.Password.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}
+        {% for errors in form.Confirm_Password.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}
+        <div class="col-6">
+          <label class="form-label">Enter Password</label>
+          {{ form.Password(class_="form-control") }}
+        </div>
+        <div class="col-6">
+          <label class="form-label">Re Enter Password</label>
+          {{ form.Confirm_Password(class_="form-control") }}
+        </div>
+        <div class="col-6">
+          <label class="form-label">Password Recovery Question 1</label>
+          {{ form.PasswordQ1(class_="form-control") }}
+          {{ form.PasswordA1(class_="form-control") }}
+          {% for errors in form.PasswordA1.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}
+        </div>
+        <div class="col-6">
+          <label class="form-label">Password Recovery Question 2</label>
+          {{ form.PasswordQ2(class_="form-control") }}
+          {{ form.PasswordA2(class_="form-control") }}
+          {% for errors in form.PasswordA2.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+        {% endfor %}
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary" name="Submit" id="Submit">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock body%}

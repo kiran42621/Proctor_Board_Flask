@@ -1,0 +1,92 @@
+{% extends "Proctorlayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+<p xmlns="http://www.w3.org/1999/html">{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="container py-5">
+  <form action="/Proctor/ProctorMeeting" method="post"/>
+  <div class="col">
+    <center>
+    <label >Enter Register Number</label>
+    <input type="text" name="inputUSN" value="">
+    <button class="btn btn-md btn-outline-primary" type="submit" name="Search" value="Search">Search</button>
+  </center>
+  </div>
+    <div class="col">
+    <div class="row">
+      {% if data %}
+      <h5>Name : {{ data.Name }}</h5>
+      {% else %}
+      <h5>Name : </h5>
+      {% endif %}
+    </div>
+    <div class="row">
+      {% if data %}
+      <h5>Class : {{ data.ProgramEnrolled }}</h5>
+      {% else %}
+      <h5>Class : </h5>
+      {% endif %}
+    </div>
+    <div class="row">
+      {% if data %}
+      <h5>Semester : {{ data.Semester }}</h5>
+      {% else %}
+      <h5>Semester : </h5>
+      {% endif %}
+    </div>
+        </form>
+        <form action="/Proctor/ProctorMeeting" method="post">
+    <div class="row pt-3">
+      <div class="col-auto">
+        <h5>Exam Type :</h5>
+      </div>
+      <div class="col-auto">
+        <select class="form-select-sm" name="Exam">
+          <option value="Internal 1">Internal 1</option>
+          <option value="Internal 2">Internal 2</option>
+          <option value="Internal 3">Internal 3</option>
+          <option value="Preperatory Examination">Preperatory Examination</option>
+          <option value="Final Examination">Final Examination</option>
+        </select>
+      </div>
+
+    </div>
+    </div>
+<!--Now-->
+          <div class="row pt-3">
+            <div class="col-auto">
+              <h5>Specific Achievements / Difficulties :</h5>
+            </div>
+            <div class="col-auto">
+              <input class="form-control-sm" type="text" name="Achievements" value="">
+            </div>
+          </div>
+          <div class="row pt-3">
+            <div class="col-auto">
+              <h5>Goal Setting :</h5>
+            </div>
+            <div class="col-auto">
+              <input class="form-control-sm" type="text" name="GoalSetting" value="">
+            </div>
+          </div>
+    <div class="row pt-3">
+     <div class="col-auto">
+              <h5>Work Plan :</h5>
+            </div><br>
+            <div class="col-auto">
+              <input class="form-control-sm" type="text" name="Workplan" value="">
+            </div>
+         </div>
+<input class="btn btn-outline-success mt-3" type="submit" name="Submit" value="Submit">
+</div>
+    </div>
+
+</form>
+{% endblock body%}
+

@@ -1,0 +1,33 @@
+{% extends "Proctorlayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<form action="/Proctor/ProctorLogin" method="post" >
+  {{ form.csrf_token }}
+<div class="container-fluid big-banner py-5 px-5" >
+    <div class="container login-box " >
+      <div class="col-6 mb-3">
+        <label for="formGroupExampleInput" class="form-label">Employee Id</label>
+        {{ form.EmployeeID(class_="form-control") }}
+      </div>
+      <div class="col-6 mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Password</label>
+       {{ form.Password(class_="form-control") }}
+      </div>
+      <div class="mb-3">
+        <p>Forgot Password? <a href="/Proctor/ForgotPassword">Click Here</a></p>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" onclick="window.location = 'ProctorHome.php';">Sign in</button>
+      </div>
+    </div>
+  </div>
+</form>
+  {% endblock body%}

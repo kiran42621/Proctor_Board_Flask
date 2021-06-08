@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Hello{% endblock %}
+
+{% block body %}
+    <!--- Carousel -->
+
+  <div class="container-fluid bg-light py-1" style="height:20rem;background-color:#d8e3e7">
+    <div id="container-fluid carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" style="height:20rem">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="../static/images/Carousel1.png" class="d-block w-100" alt="image 1">
+        </div>
+        <div class="carousel-item">
+          <img src="../static/images/Carousel2.png" class="d-block w-100" alt="image 2">
+        </div>
+        <div class="carousel-item">
+          <img src="../static/images/Carousel3.png" class="d-block w-100" alt="image 3">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--- Announcements -->
+<div class="container-fluid position-relative" style="background-color:#d8e3e7" >
+    <div class="container py-5">
+      <table class="table table-striped table-hover">
+        <center>
+    <thead>
+      <tr>
+        <th scope="col-1">Sl. no</th>
+        <th scope="col-1">Date</th>
+        <th scope="col-8">Announcements</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if data %}
+    {% for rows in data %}
+      <tr>
+        <th scope="row">1</th>
+        <td>{{rows.Date}}</td>
+        <td>{{rows.Announcement}}</td>
+      </tr>
+    {% endfor %}
+    {% else %}
+    <tr> No Data</tr>
+    {% endif %}
+    </tbody>
+  </center>
+  </table>
+    </div>
+  </div>
+<a href="/Student/ren_Student_Register">Student</a>
+<a href="/Proctor/ProctorRegister">Proctor</a>
+{% endblock body%}

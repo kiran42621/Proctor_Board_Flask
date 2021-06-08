@@ -1,0 +1,51 @@
+.about a {
+  color: white;
+}
+
+.about a:hover {
+  color: #04009a;
+  padding-left: 10px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.big-banner{
+  background-image: url(../imgs/Background.jpg);
+  width: inherit;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.login-box{
+  margin:10rem;
+}
+
+.StudentHomeBanner{
+  background-image: url(../imgs/StudentHomeBg.jpg);
+  padding-top: 6rem;
+}
+
+/* Sticky Footer */
+body{
+  min-height: 100vh;
+}
+.Sticky-Footer{
+  position: sticky;
+  top: 100%
+}
+/* Student Information */
+.info-head{
+  font-family: serif;
+}
+
+.info-image {
+  width: 18rem;
+  height: 20rem;
+}
+.info-Detail{
+  font-family: serif;
+}
+.info-Text{
+  font-family: serif;
+  font-size: 20px
+}

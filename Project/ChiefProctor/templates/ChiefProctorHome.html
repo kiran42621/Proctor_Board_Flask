@@ -1,0 +1,82 @@
+{% extends "ChiefProctorlayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!--Body-->
+    <div class="container-fluid py-5">
+      <div class="container bg-light pt-3 border">
+        <button class="btn btn-block btn-success " type="button" name="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button>
+        <div class="container">
+          <table class="table">
+            <form action="" method="post">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date</th>
+                <th scope="col">Announcement</th>
+                <th scope="col">action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% if data: %}
+            {% set count = 0 %}
+            {% for rows in data %}
+            {% set count = count + 1 %}
+              <tr>
+                <th scope="row">{{ count }}</th>
+                <td>{{ rows.Date }}</td>
+                <td>{{ rows.Announcement }}</td>
+                <td><a href="/ChiefProctor/RemoveAnnouncement/{{ rows._id }}"><button class="btn btn-sm btn-danger" type="button" name="button">Remove</button></a></td>
+              </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+              <p>No records found</p>
+            </tr>
+            {% endif %}
+            </tbody>
+              </form>
+          </table>
+          <hr>
+        </div>
+      </div>
+    </div>
+
+{% endblock body%}
+
+{% block Modal %}
+<!-- Announcement Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/ChiefProctor/AddAnnouncement" method="post">
+        <label for="" class="form-label">Enter New Announcement</label>
+        <input type="textarea" class="form-control" name="inputAnnouncement" id="inputAnnouncement" value="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" >Publish Announcement</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block jscript %}
+<script type="text/javascript">
+</script>
+{% endblock jscript %}

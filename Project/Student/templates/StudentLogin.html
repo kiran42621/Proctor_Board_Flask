@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<form action="/Student/ren_Student_Login" method="POST" >
+    {{ form.csrf_token }}
+<div class="container-fluid">
+    <div class="container bg-light py-5 my-5">
+      <div class="mb-3">
+        <label class="form-label">USN Number</label>
+        {{ form.USN(class_="form-control") }}
+          {% for errors in form.USN.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        {{ form.Password(class_="form-control") }}
+          {% for errors in form.Password.errors %}
+          <p style="font-family:serif;color:red">
+            {{ errors }}
+          </p>
+          {% endfor %}
+      </div>
+      <div class="mb-3">
+        <p>Forgot Password? <a href="/Student/ForgotPassword">Click Here</a></p>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" >Sign in</button>
+      </div>
+    </div>
+    </div>
+</form>
+
+{% endblock body%}

@@ -1,0 +1,90 @@
+{% extends "Proctorlayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+<p xmlns="http://www.w3.org/1999/html">{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="container py-5">
+  <form action="/Proctor/ProctorMarks" method="post"/>
+  <div class="col">
+    <center>
+    <label for="inputUserID">Enter Register Number</label>
+    <input type="text" name="inputUSN" value="">
+    <button class="btn btn-md btn-outline-primary" type="submit" name="Search" value="Search">Search</button>
+  </center>
+  </div>
+
+  <div class="col">
+    <div class="row">
+      {% if data %}
+      <h5>Name : {{ data.Name }}</h5>
+      {% else %}
+      <h5>Name : </h5>
+      {% endif %}
+    </div>
+    <div class="row">
+      {% if data %}
+      <h5>Class : {{ data.ProgramEnrolled }}</h5>
+      {% else %}
+      <h5>Class : </h5>
+      {% endif %}
+    </div>
+    <div class="row">
+      {% if data %}
+      <h5>Semester : {{ data.Semester }}</h5>
+      {% else %}
+      <h5>Semester : </h5>
+      {% endif %}
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <h5>Exam Type :</h5>
+      </div>
+      <div class="col-5">
+        <select class="form-select-sm" name="">
+          <option value="">Internal 1</option>
+          <option value="">Internal 2</option>
+          <option value="">Internal 3</option>
+          <option value="">Preperatory Examination</option>
+          <option value="">Final Examination</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+  <div class="container">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Marks</th>
+        <th scope="col">Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% set count = 0 %}
+    {% for rows in data2 %}
+    {% set count = count + 1 %}
+      <tr>
+        <th scope="row">{{ count }}</th>
+        <td>{{ rows }}</td>
+        <td><input type="number" name="inputMarks[]" value=""></td>
+        <td><input type="text" name="inputRemarks[]" value=""></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <div class="col">
+    <button class="btn btn-success" type="submit" name="Submit" value="Submit">Submit</button>
+  </div>
+  </div>
+  </form>
+</div>
+{% endblock body%}
+

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}Student Home{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<form action="{{ url_for('Student.home')}}" method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+<div class="container-fluid StudentHomeBanner">
+<div class="container-md bg-light p-3">
+  <div class="col mb-3">
+    <label for="" class="form-label">Type of Event</label>
+    {{ form.EventType(class_ = "form-control") }}
+  </div>
+  <div class="col mb-3">
+    <label for="" class="form-label">Event Name</label>
+    {{ form.EventName(class_ = "form-control") }}
+  </div>
+  <div class="col mb-3">
+    <label for="" class="form-label">Prizes won <span>(if any)</span></label>
+    {{ form.PrizesWon(class_ = "form-control") }}
+  </div>
+  <div class="col mb-3">
+    <label for="" class="form-label">Certificates <span>(if any)</span></label>
+    {{ form.Certificates(class_ = "form-control") }}
+  </div>
+  <div class="col mb-3">
+    <center>
+    <button type="submit" class="btn btn-outline-primary" name="button"> Submit </button>
+    </center>
+  </div>
+</div>
+    </div>
+  </form>
+
+{% endblock body%}
