@@ -40,6 +40,7 @@
                           <th>Class</th>
                           <th>Semester</th>
                           <th>Proctor</th>
+                          <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -51,6 +52,7 @@
                           <td>{{ rows.ProgramEnrolled }}</td>
                           <td>{{ rows.Semester }}</td>
                           <td>{{ rows.Proctor }}</td>
+                          <td><button type="button" onclick="sample()" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{rows.USN}}" value="{{rows.USN}}" id="Remove">Remove</button></td>
                       </tr>
                   {% endfor %}
                   </tbody>
@@ -70,6 +72,29 @@
 
 {% block Modal %}
 
+<!-- Announcement Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/ChiefProctor/RemoveStudents" method="post">
+        <label for="" class="form-label">Are you sure to Remove this user? if yes enter removal message.</label>
+        <input type="textarea" class="form-control" name="Removal_User_ID" id="RemovalUserId" value="">
+        <input type="textarea" class="form-control" name="Removal_Message" id="RemovalMessage" value="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" id="RemovalMessageBtn" class="btn btn-danger" >Remove</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock Modal %}
 
 {% block jscript %}
@@ -77,5 +102,10 @@
   $(document).ready( function () {
       $('#myTable').DataTable();
     } );
+
+    $(document).on('click', '#Remove', function(){
+        var id = $(this).attr("value");
+        document.getElementById("RemovalUserId").value = id;
+    });
 </script>
 {% endblock jscript %}

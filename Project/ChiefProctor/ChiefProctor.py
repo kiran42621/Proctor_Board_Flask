@@ -1,7 +1,7 @@
 import Proctor_Board.Project.app as app
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request
-from  datetime import datetime
+from datetime import datetime
 from base64 import b64encode
 
 ChiefProctors = Blueprint('ChiefProctor', __name__, template_folder="templates", static_folder="static")
@@ -30,7 +30,7 @@ def RemoveAnnouncement(id):
 
 @ChiefProctors.route("/Assign", methods=['GET','POST'])
 def Assign():
-    Students = app.Student_Personal.query.all()
+    Students = app.Student_Personal.query.filter_by(Status = "Active").all()
     Proctors = app.Proctor.query.filter_by(Status = "Active").all()
     if request.method == 'POST':
         Proctor_ID = request.form['Proctor_Name']
@@ -82,4 +82,14 @@ def RemoveProctors():
         rows.ProctorID = ""
         app.db.session.commit()
     return redirect(url_for("ChiefProctor.ShowProctors"))
+
+@ChiefProctors.route("/RemoveStudents", methods=['POST','GET'])
+def RemoveStudents():
+    id = request.form['Removal_User_ID'].upper()
+    message = request.form['Removal_Message']
+    Student = app.Student_Personal.query.filter_by(USN = id).first()
+    Student.RemovalMessage = message
+    Student.Status = 'Removed'
+    app.db.session.commit()
+    return redirect(url_for("ChiefProctor.Assign"))
 
