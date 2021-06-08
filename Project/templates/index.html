@@ -36,7 +36,7 @@
     {% if data %}
     {% for rows in data %}
       <tr>
-        <th scope="row">1</th>
+        <th scope="row">{{ loop.index }}</th>
         <td>{{rows.Date}}</td>
         <td>{{rows.Announcement}}</td>
       </tr>
