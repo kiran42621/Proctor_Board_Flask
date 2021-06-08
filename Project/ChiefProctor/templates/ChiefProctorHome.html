@@ -27,11 +27,10 @@
             </thead>
             <tbody>
             {% if data: %}
-            {% set count = 0 %}
             {% for rows in data %}
-            {% set count = count + 1 %}
+
               <tr>
-                <th scope="row">{{ count }}</th>
+                <th scope="row">{{ loop.index }}</th>
                 <td>{{ rows.Date }}</td>
                 <td>{{ rows.Announcement }}</td>
                 <td><a href="/ChiefProctor/RemoveAnnouncement/{{ rows._id }}"><button class="btn btn-sm btn-danger" type="button" name="button">Remove</button></a></td>

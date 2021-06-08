@@ -78,7 +78,7 @@
                 <tbody>
                 {% for rows in data %}
                     <tr>
-                        <td>{{ rows }}</td>
+                        <td>{{ loop.index }}</td>
                         <td><a href="/Principal/display/{{rows['USN']}}">{{rows['USN']}}</a></td>
                         <td>{{ rows['Name'] }}</td>
                         <td>{{ rows['Mobile'] }}</td>
@@ -103,6 +103,6 @@
     $(document).ready( function () {
       $('#myTable').DataTable();
     } );
-});
+
     </script>
 {% endblock jscript %}
