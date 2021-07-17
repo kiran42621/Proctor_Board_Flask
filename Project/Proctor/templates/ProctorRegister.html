@@ -5,7 +5,7 @@
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         {% for msg in messages %}
-            <p>{{msg}}</p>
+<p xmlns="http://www.w3.org/1999/html">{{msg}}</p>
         {% endfor %}
     {% endif %}
 {% endwith %}
@@ -17,7 +17,8 @@
         <h2>Personal Details</h2>
         <div class="col-md-6">
           <label for="inputName" class="form-label">Name</label>
-          {{ form.Name(class_="form-control") }}
+          {{ form.Name(class_="form-control",id="Proc_Name",oninput="Validate_Name('Proc_Name','Name_Error')") }}
+          <span class="" id="Name_Error" style="color:red"></span>
           {% for errors in form.Name.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -26,7 +27,8 @@
         </div>
         <div class="col-md-6">
           <label for="inputEmployeeId" class="form-label">Employee ID</label>
-          {{ form.EmployeeID(class_="form-control") }}
+          {{ form.EmployeeID(class_="form-control",id="Proc_ID",oninput="Validate_USN('Proc_ID','Id_Error','Employee ID')") }}
+          <span class="" id="Id_Error" style="color:red"></span>
           {% for errors in form.EmployeeID.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -44,7 +46,8 @@
         </div>
         <div class="col-md-4">
           <label for="inputMobile" class="form-label">Mobile No.</label>
-          {{ form.Mobile(class_="form-control") }}
+          {{ form.Mobile(class_="form-control",id="Proc_Number",oninput="Validate_Number('Proc_Number','Number_Error')") }}
+          <span class="" id="Number_Error" style="color:red"></span>
           {% for errors in form.Mobile.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -64,7 +67,7 @@
         <h2>Password </h2>
         <div class="col-6">
           <label for="inputPassword" class="form-label">Enter Password</label>
-          {{ form.Password(class_="form-control") }}
+          {{ form.Password(class_="form-control",id="Proc_Password1",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error')") }}
           {% for errors in form.Password.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -73,18 +76,19 @@
         </div>
         <div class="col-6">
           <label for="inputRepassword" class="form-label">Re Enter Password</label>
-          {{ form.Confirm_Password(class_="form-control") }}
+          {{ form.Confirm_Password(class_="form-control",type="password",id="Proc_Password2",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error')") }}
           {% for errors in form.Confirm_Password.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
           {% endfor %}
         </div>
+        <span id="Password_Error" style="color:red"></span>
         <div class="col-6">
           <label for="inputFuturePlans" class="form-label">Password Recovery Question 1</label>
           <label class="visually-hidden" for="RecoveryQuestion1">Preference</label>
-          {{ form.PasswordQ1(class_="form-control") }}
-          {{ form.PasswordA1(class_="form-control") }}
+          {{ form.PasswordQ1(class_="form-control",id="Password_Recover1",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
+          {{ form.PasswordA1(class_="form-control",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
           {% for errors in form.PasswordA1.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -94,7 +98,7 @@
         <div class="col-6">
           <label for="inputFuturePlans" class="form-label">Password Recovery Question 2</label>
           <label class="visually-hidden" for="RecoveryQuestion2">Preference</label>
-          {{ form.PasswordQ2(class_="form-control") }}
+          {{ form.PasswordQ2(class_="form-control",id="Password_Recover2",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
           {{ form.PasswordA2(class_="form-control") }}
           {% for errors in form.PasswordA2.errors %}
           <p style="font-family:serif;color:red">
@@ -102,8 +106,9 @@
           </p>
           {% endfor %}
         </div>
+        <span id="Password_Recover" style="color:red"></span>
         <div class="col-12">
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button type="submit" id="btn_Register" class="btn btn-primary">Register</button>
         </div>
       </form>
     </div>

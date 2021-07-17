@@ -92,4 +92,3 @@ def RemoveStudents():
     Student.Status = 'Removed'
     app.db.session.commit()
     return redirect(url_for("ChiefProctor.Assign"))
-

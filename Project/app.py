@@ -1,7 +1,6 @@
 import os
 
 import pandas as pd
-import numpy as np
 
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
@@ -9,12 +8,12 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, TextAreaField
 from flask_bootstrap import Bootstrap
 from wtforms.validators import InputRequired
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, UserMixin, logout_user, current_user
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from functools import wraps
 from flask_abort import abort
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 try:
     from Proctor.Proctor import Proctors
@@ -36,7 +35,7 @@ app.secret_key = "Kcube"
 #global_variables
 Courses = {'BCA': 'bca', 'BSC' : 'bsc', 'BCOM' : 'Bcom'}
 Semester = {'1':'First', '2':'Second', '3':'Third', '4':'Fourth', '5':'Fifth', '6':'Sixth'}
-Password_Recover_Questions = {'What is the name of your first pet?':'What is the name of your first pet?', 'Which is your favourite car?':'Which is your favourite car?', 'What was your childhood nickname?':'What was your childhood nickname?', 'What is the name of your favorite childhood friend?':'What is the name of your favorite childhood friend?', 'What school did you attend for sixth grade?':'What school did you attend for sixth grade?'}
+Password_Recover_Questions = {'Choose Question':'Choose Question','What is the name of your first pet?':'What is the name of your first pet?', 'Which is your favourite car?':'Which is your favourite car?', 'What was your childhood nickname?':'What was your childhood nickname?', 'What is the name of your favorite childhood friend?':'What is the name of your favorite childhood friend?', 'What school did you attend for sixth grade?':'What school did you attend for sixth grade?'}
 Blood_Group = {'A-Positive':'A+', 'A-Negative':'A-', 'B-Positive':'B+', 'B-Negative':'B-', 'AB-Positive':'AB+', 'AB-Negative':'AB-', 'O-Positive':'O+', 'O-Negative':'O-', 'NA':'Not Known'}
 EventType = {'Co-Curricular':'Co-Curricular','Cultural':'Cultural','Seminar / Paper Presentation':'Seminar/Paper-Presentation','Sports':'Sports'}
 #declaring_Subjects
@@ -379,7 +378,6 @@ class FeedbackForm(FlaskForm):
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(1)
     if session['Usertype'] == "Student":
         return Student_Personal.query.filter_by(_id=user_id).first()
     elif session['Usertype'] == "Proctor":
@@ -436,3 +434,4 @@ if __name__ == "__main__":
     app.register_blueprint(ChiefProctors, url_prefix="/ChiefProctor")
     db.create_all()
     app.run(debug=True)
+

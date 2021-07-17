@@ -1,23 +1,14 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% block title %}Student Register{% endblock %}
 
 {% block body %}
 
 
 {% for errors in form.SSLC_Institute.errors %}
-    <small class="form-text text-muted ">
-<!--        {% for error in errors%}-->
-<!--          <div class="alert-sm alert-danger" role="alert">-->
-<!--              {{ error }}-->
-<!--          </div>-->
-<!--        {% endfor %}-->
+    <small class="form-text text-muted">
       {{ errors }}
     </small>
 {% endfor %}
-
-
-
-
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -34,21 +25,23 @@
         <h2>Personal Details</h2>
         <div class="col-md-6">
           <label for="" class="form-label">Name</label>
-          {{ form.Name(class_="form-control") }}
+          {{ form.Name(class_="form-control",id="Student_Name",oninput="Validate_Name('Student_Name','Name_Error')") }}
           {% for errors in form.Name.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
           {% endfor %}
+          <span class="" id="Name_Error" style="color:red"></span>
         </div>
         <div class="col-md-6">
           <label for="" class="form-label">Register Number</label>
-          {{ form.USN(class_="form-control") }}
+          {{ form.USN(class_="form-control",id="Student_USN",oninput="Validate_USN('Student_USN','USN_Error','USN')") }}
           {% for errors in form.USN.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
           {% endfor %}
+          <span class="" id="USN_Error" style="color:red"></span>
         </div>
         <div class="col-md-4">
           <label for="" class="form-label">Program Enrolled</label>
@@ -318,7 +311,7 @@
         {% endfor %}
         </div>
         <div class="col-12">
-          <button type="submit" class="btn btn-primary" name="Submit" id="Submit">Register</button>
+          <button type="submit" class="btn btn-primary" name="Submit" id="btn_Register">Register</button>
         </div>
       </form>
     </div>
