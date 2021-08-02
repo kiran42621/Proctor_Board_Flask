@@ -40,6 +40,7 @@
                           <th>Class</th>
                           <th>Semester</th>
                           <th>Proctor</th>
+                          <th>Mobile</th>
                           <th>Action</th>
                       </tr>
                   </thead>
@@ -52,6 +53,7 @@
                           <td>{{ rows.ProgramEnrolled }}</td>
                           <td>{{ rows.Semester }}</td>
                           <td>{{ rows.Proctor }}</td>
+                          <td>{{ rows.Mobile }}</td>
                           <td><button type="button" onclick="sample()" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{rows.USN}}" value="{{rows.USN}}" id="Remove">Remove</button></td>
                       </tr>
                   {% endfor %}

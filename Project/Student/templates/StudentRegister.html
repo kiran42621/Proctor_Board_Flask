@@ -81,12 +81,13 @@
         </div>
         <div class="col-md-3">
           <label for="" class="form-label">Mobile No.</label>
-          {{ form.Mobile(class_="form-control", type="number") }}
+          {{ form.Mobile(class_="form-control", type="number",id="Student_Number",oninput="Validate_Number('Student_Number','Number_Error')") }}
           {% for errors in form.Mobile.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
           {% endfor %}
+          <span class="" id="Number_Error" style="color:red"></span>
         </div>
         <div class="col-md-3">
           <label class="form-label">Date of Birth</label>
@@ -153,7 +154,7 @@
         </div>
         <div class="col-md-2">
           <label class="form-label">Zipcode</label>
-          {{ form.Zipcode(class_="form-control") }}
+          {{ form.Zipcode(class_="form-control", type="number") }}
           {% for errors in form.Zipcode.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -284,16 +285,17 @@
         {% endfor %}
         <div class="col-6">
           <label class="form-label">Enter Password</label>
-          {{ form.Password(class_="form-control") }}
+          {{ form.Password(class_="form-control",id="Proc_Password1",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error')") }}
         </div>
         <div class="col-6">
           <label class="form-label">Re Enter Password</label>
-          {{ form.Confirm_Password(class_="form-control") }}
+          {{ form.Confirm_Password(class_="form-control",id="Proc_Password2",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error')") }}
         </div>
+        <span id="Password_Error" style="color:red"></span>
         <div class="col-6">
           <label class="form-label">Password Recovery Question 1</label>
-          {{ form.PasswordQ1(class_="form-control") }}
-          {{ form.PasswordA1(class_="form-control") }}
+          {{ form.PasswordQ1(class_="form-control",id="Password_Recover1",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
+          {{ form.PasswordA1(class_="form-control",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
           {% for errors in form.PasswordA1.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -302,7 +304,7 @@
         </div>
         <div class="col-6">
           <label class="form-label">Password Recovery Question 2</label>
-          {{ form.PasswordQ2(class_="form-control") }}
+          {{ form.PasswordQ2(class_="form-control",id="Password_Recover2",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
           {{ form.PasswordA2(class_="form-control") }}
           {% for errors in form.PasswordA2.errors %}
           <p style="font-family:serif;color:red">
@@ -310,6 +312,7 @@
           </p>
         {% endfor %}
         </div>
+        <span id="Password_Recover" style="color:red"></span>
         <div class="col-12">
           <button type="submit" class="btn btn-primary" name="Submit" id="btn_Register">Register</button>
         </div>

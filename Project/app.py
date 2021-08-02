@@ -428,10 +428,10 @@ def logout():
 
 #Main_Definition
 if __name__ == "__main__":
+    db.create_all()
     app.register_blueprint(Students, url_prefix="/Student")
     app.register_blueprint(Proctors, url_prefix="/Proctor")
     app.register_blueprint(Principals, url_prefix="/Principal")
     app.register_blueprint(ChiefProctors, url_prefix="/ChiefProctor")
-    db.create_all()
     app.run(debug=True)
 

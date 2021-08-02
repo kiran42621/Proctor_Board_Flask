@@ -79,7 +79,7 @@
                 <tbody>
                 {% for rows in data %}
                     <tr>
-                        <td>{{ rows }}</td>
+                        <td>{{ loop.index }}</td>
                         <td><a href="#">{{ rows['USN'] }}</a></td>
                         <td>{{ rows['Name'] }}</td>
                         <td>{{ rows['Mobile'] }}</td>

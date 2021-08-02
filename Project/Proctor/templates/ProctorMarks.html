@@ -68,11 +68,9 @@
       </tr>
     </thead>
     <tbody>
-    {% set count = 0 %}
     {% for rows in data2 %}
-    {% set count = count + 1 %}
       <tr>
-        <th scope="row">{{ count }}</th>
+        <th scope="row">{{ loop.index }}</th>
         <td>{{ rows }}</td>
         <td><input type="number" name="inputMarks[]" value=""></td>
         <td><input type="text" name="inputRemarks[]" value=""></td>

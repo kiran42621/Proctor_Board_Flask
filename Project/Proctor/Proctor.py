@@ -104,16 +104,21 @@ def ProctorMarks():
                 return redirect(url_for("Proctor.ProctorMarks"))
             else:
                 USN = request.form['inputUSN'].upper()
-                Student_Detail = app.Student_Personal.query.filter_by(USN = USN).first()
-                session['temp_Name'] = Student_Detail.Name
-                session['temp_USN'] = Student_Detail.USN
-                session['temp_Dept'] = Student_Detail.ProgramEnrolled
-                session['temp_Semester'] = Student_Detail.Semester
-                sem = str(Student_Detail.Semester)
-                classs = Student_Detail.ProgramEnrolled
-                sub = app.panda_df[sem][classs]
-                session['Subjects'] = sub
-                return render_template("ProctorMarks.html", data = Student_Detail, data2=sub)
+                print(current_user._id)
+                Student_Detail = app.Student_Personal.query.filter_by(USN = USN, ProctorID = current_user.EmployeeID).first()
+                if Student_Detail:
+                    session['temp_Name'] = Student_Detail.Name
+                    session['temp_USN'] = Student_Detail.USN
+                    session['temp_Dept'] = Student_Detail.ProgramEnrolled
+                    session['temp_Semester'] = Student_Detail.Semester
+                    sem = str(Student_Detail.Semester)
+                    classs = Student_Detail.ProgramEnrolled
+                    sub = app.panda_df[sem][classs]
+                    session['Subjects'] = sub
+                    return render_template("ProctorMarks.html", data = Student_Detail, data2=sub)
+                else :
+                    flash("Currently you are unable to view this student")
+                    return redirect(url_for("Proctor.ProctorMarks"))
 
         if request.form.get('Submit', None):
             USN = session['temp_USN']
