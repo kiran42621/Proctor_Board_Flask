@@ -67,7 +67,7 @@ def ProctorRegister():
 @Proctors.route("/ProctorLogin", methods=['POST', 'GET'])
 def ProctorLogin():
     proctorloginform = ProctorLoginForm(request.form)
-    if proctorloginform.validate_on_submit():
+    if request.method == "POST":
         EmployeeID = proctorloginform.EmployeeID.data.upper()
         session['Usertype'] = "Proctor"
         Proctor = app.Proctor.query.filter_by(EmployeeID = EmployeeID, Status = "Active").first()

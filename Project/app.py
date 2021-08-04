@@ -1,8 +1,8 @@
 import os
-
+import bcrypt
 import pandas as pd
 
-from flask import Flask, render_template, redirect, url_for, flash, session
+from flask import Flask, render_template, redirect, url_for, flash, session, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, TextAreaField
@@ -14,6 +14,8 @@ from flask_admin.contrib.sqla import ModelView
 from functools import wraps
 from flask_abort import abort
 from flask_socketio import SocketIO
+from wtforms import StringField, SelectField, PasswordField
+from wtforms.validators import InputRequired, EqualTo, length
 
 try:
     from Proctor.Proctor import Proctors
@@ -24,6 +26,9 @@ except:
     pass
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+
+
 
 #app_definitions
 app = Flask(__name__)
@@ -38,6 +43,8 @@ Semester = {'1':'First', '2':'Second', '3':'Third', '4':'Fourth', '5':'Fifth', '
 Password_Recover_Questions = {'Choose Question':'Choose Question','What is the name of your first pet?':'What is the name of your first pet?', 'Which is your favourite car?':'Which is your favourite car?', 'What was your childhood nickname?':'What was your childhood nickname?', 'What is the name of your favorite childhood friend?':'What is the name of your favorite childhood friend?', 'What school did you attend for sixth grade?':'What school did you attend for sixth grade?'}
 Blood_Group = {'A-Positive':'A+', 'A-Negative':'A-', 'B-Positive':'B+', 'B-Negative':'B-', 'AB-Positive':'AB+', 'AB-Negative':'AB-', 'O-Positive':'O+', 'O-Negative':'O-', 'NA':'Not Known'}
 EventType = {'Co-Curricular':'Co-Curricular','Cultural':'Cultural','Seminar / Paper Presentation':'Seminar/Paper-Presentation','Sports':'Sports'}
+Users = {'ChiefProctor':'ChiefProctor','Principal':'Principal'}
+
 #declaring_Subjects
 Columns = ['1','2','3','4','5','6']
 Rows = ['BCA','BCOM','Bsc']
@@ -375,6 +382,21 @@ class FeedbackForm(FlaskForm):
     Designation = SelectField(choices=Courses)
     Feedback = TextAreaField()
 
+#PRoctor_Details
+class ProctorRegistrationForm(FlaskForm):
+    Name = StringField('Name', validators=[InputRequired(message='Required'), length(min=3, max=30, message="Name should be below 30 Characters")])
+    EmployeeID = StringField('EmployeeID', validators=[InputRequired(message='Required'), length(min=3, max=30, message="EmployeeID should be below 30 Characters")])
+    Department = SelectField(choices=Courses)
+    Mobile = StringField(validators=[InputRequired(message="Mobile Number Required")])
+    BloodGroup = SelectField(choices=Blood_Group)
+    Password = PasswordField('Password', validators=[InputRequired(message='Required')])
+    Confirm_Password = StringField(validators=[InputRequired(message='Required'), EqualTo('Password', message="Both the password should same")])
+    PasswordQ1 = SelectField(choices=Password_Recover_Questions)
+    PasswordA1 = StringField(validators=[InputRequired(message="Mobile Number Required")])
+    PasswordQ2 = SelectField(choices=Password_Recover_Questions)
+    PasswordA2 = StringField(validators=[InputRequired(message="Mobile Number Required")])
+    Usertype = SelectField(choices=Users)
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -425,6 +447,45 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@app.route("/defaultlogin", methods=['GET', 'POST'])
+def deflogin():
+    if request.method == "POST":
+        if request.form["Name"] == "Admin" and request.form["password"] == "Admin@123#":
+            return redirect(url_for("defaulthome"))
+        else:
+            return "<p>This page is only for Admins. <a href='/'>Go to home</a></p>"
+    return render_template("defaultlogin.html")
+
+@app.route("/defaulthome", methods=['GET','POST'])
+def defaulthome():
+    defhomeform = ProctorRegistrationForm(request.form)
+    if request.method == "POST":
+        if defhomeform.validate_on_submit():
+            Name = defhomeform.Name.data
+            EmployeeID = defhomeform.EmployeeID.data.upper()
+            Department = defhomeform.Department.data
+            Mobile = defhomeform.Mobile.data
+            BloodGroup = defhomeform.BloodGroup.data
+            Password = bcrypt.hashpw(defhomeform.Password.data.encode('utf-8'), bcrypt.gensalt())
+            PasswordQ1 = defhomeform.PasswordQ1.data
+            PasswordA1 = defhomeform.PasswordA1.data
+            PasswordQ2 = defhomeform.PasswordQ2.data
+            PasswordA2 = defhomeform.PasswordA2.data
+            Usertype = defhomeform.Usertype.data
+            proctor = Proctor.query.filter_by(EmployeeID=EmployeeID).first()
+
+            if proctor:
+                flash("User Already exist try login")
+                return redirect(url_for('home'))
+
+            else:
+                new_proctor = Proctor(Name, EmployeeID, Department, Mobile, BloodGroup, Password, PasswordQ1,
+                                          PasswordA1, PasswordQ2, PasswordA2, '', Usertype, 'Active')
+                db.session.add(new_proctor)
+                db.session.commit()
+                flash("User Added")
+                return redirect(url_for('home'))
+    return render_template("defaulthome.html", form = defhomeform)
 
 #Main_Definition
 if __name__ == "__main__":
