@@ -1,10 +1,22 @@
 import Proctor_Board.Project.app as app
+import bcrypt
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, session, redirect, url_for, request
 from datetime import datetime
 from base64 import b64encode
+from flask_login import login_required, login_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, SelectField, PasswordField
+from wtforms import StringField, SelectField, PasswordField
 
 ChiefProctors = Blueprint('ChiefProctor', __name__, template_folder="templates", static_folder="static")
+
+
+#Proctor_Login
+class ChiefProctorLoginForm(FlaskForm):
+    EmployeeID = StringField()
+    Password = PasswordField()
+
 
 @ChiefProctors.route("/")
 def home():
@@ -92,3 +104,51 @@ def RemoveStudents():
     Student.Status = 'Removed'
     app.db.session.commit()
     return redirect(url_for("ChiefProctor.Assign"))
+
+#Proctor_Login
+@ChiefProctors.route("/ChiefProctorLogin", methods=['POST', 'GET'])
+def ChiefProctorLogin():
+    chiefproctorloginform = ChiefProctorLoginForm(request.form)
+    if request.method == "POST":
+        EmployeeID = chiefproctorloginform.EmployeeID.data.upper()
+        session['Usertype'] = "Proctor"
+        Proctor = app.Proctor.query.filter_by(EmployeeID = EmployeeID, Status = "Active").first()
+        if Proctor:
+            if bcrypt.checkpw(chiefproctorloginform.Password.data.encode('utf-8'), Proctor.Password):
+                login_user(Proctor)
+                return redirect(url_for("ChiefProctor.home"))
+        else:
+            return "Check Username & Password"
+
+    else:
+        return render_template("ChiefProctorLogin.html", form=chiefproctorloginform)
+
+
+@ChiefProctors.route("/ForgotPassword", methods=['GET','POST'])
+def ForgotPassword():
+    if request.method == 'POST':
+        USN = request.form['USN'].upper()
+        if request.form.get('SendUSN', None):
+            Proctor = app.Proctor.query.filter_by(EmployeeID = USN).first()
+            return render_template("ProctorForgotPassword.html", data = Proctor)
+        if request.form.get('ChangePassword', None):
+            P1 = request.form['Password']
+            P2 = request.form['Confirm_Password']
+            PA1 = request.form['PasswordA1']
+            PA2 = request.form['PasswordA2']
+            USN = request.form['USN'].upper()
+            Proctor = app.Proctor.query.filter_by(EmployeeID=USN).first()
+            if P1 == P2:
+                if Proctor.PasswordA1 == PA1 and Proctor.PasswordA2 == PA2:
+                    Proctor.Password = bcrypt.hashpw(P1.encode('utf-8'), bcrypt.gensalt())
+                    app.db.session.commit()
+                    return redirect(url_for('ChiefProctor.ChiefProctorLogin'))
+                else:
+                    flash("Check Answers again")
+                    return render_template("ChiefProctorForgotPassword.html")
+            else:
+                flash("Both the password should same")
+                return render_template("ChiefProctorForgotPassword.html", data=Proctor)
+    return render_template("ChiefProctorForgotPassword.html")
+
+

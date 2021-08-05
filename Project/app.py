@@ -476,7 +476,7 @@ def defaulthome():
 
             if proctor:
                 flash("User Already exist try login")
-                return redirect(url_for('home'))
+                return redirect(url_for('defaulthome'))
 
             else:
                 new_proctor = Proctor(Name, EmployeeID, Department, Mobile, BloodGroup, Password, PasswordQ1,

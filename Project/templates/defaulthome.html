@@ -2,6 +2,15 @@
 {% block title %}Hello{% endblock %}
 
 {% block body %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <div class="container-fluid">
     <div class="container bg-light py-3">
       <form class="row g-3" action="/defaulthome" method="post" enctype="multipart/form-data">
