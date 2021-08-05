@@ -1,0 +1,33 @@
+{% extends "PrincipalLayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<form action="/Principal/PrincipalLogin" method="post" >
+  {{ form.csrf_token }}
+<div class="container-fluid big-banner p-1" >
+    <div class="container login-box " >
+      <div class="col-6 mb-3">
+        <label for="formGroupExampleInput" class="form-label">Employee Id</label>
+        {{ form.EmployeeID(class_="form-control") }}
+      </div>
+      <div class="col-6 mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Password</label>
+       {{ form.Password(class_="form-control") }}
+      </div>
+      <div class="mb-3">
+        <p>Forgot Password? <a href="/Principal/ForgotPassword">Click Here</a></p>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" >Sign in</button>
+      </div>
+    </div>
+  </div>
+</form>
+  {% endblock body%}

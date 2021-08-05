@@ -315,9 +315,9 @@ class Student_Family(db.Model):
 class Feedback(db.Model):
     __tablename__ = 'Feedback'
     _id = db.Column("id", db.Integer, primary_key=True)
-    Name = db.Column(db.String(30))
-    Designation = db.Column(db.String(30))
-    Feedback = db.Column(db.String(30))
+    Name = db.Column(db.String(255))
+    Designation = db.Column(db.String(255))
+    Feedback = db.Column(db.String(255))
 
     def __init__(self, Name, Designation, Feedback):
         self.Name = Name
@@ -428,8 +428,8 @@ def feedback():
     if feedbackform.validate_on_submit():
         Name = feedbackform.Name.data
         Designation = feedbackform.Designation.data
-        Feedback = feedbackform.Feedback.data
-        data = Feedback(Name, Designation, '')
+        Message = feedbackform.Feedback.data
+        data = Feedback(Name, Designation, Message)
         db.session.add(data)
         db.session.commit()
         flash("Thank you for feedback")
