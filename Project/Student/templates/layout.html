@@ -10,25 +10,29 @@
     <title>Proctor Board</title>
     {% endif %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}?v=1.1">
+    {% block script %}
+    {% endblock %}
     <script src="{{ url_for('static', filename='JS/validation.js') }}"></script>
+{% block style %}
+{% endblock %}
 </head>
 {% block header %}
 {% if current_user.is_authenticated %}
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><h4>Proctor Board</h4></a>
+      <a class="navbar-brand nav-titles" href="#"><h4><strong>Proctor Board</strong></h4></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="StudentHome.php">Home</a>
+            <a class="nav-link active nav-childs" aria-current="page" href="/Student/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/Student/display/{{current_user.USN}}">View Profile</a>
+            <a class="nav-link active nav-childs" aria-current="page" href="/Student/display/{{current_user.USN}}">View Profile</a>
           </li>
         </ul>
         <ul class="navbar-nav navbar-right ms-auto mb-2 mb-lg-0">
@@ -84,11 +88,12 @@
 
                 <a href="{{'/Proctor/ProctorLogin'}}"><i class="fas fa-angle-right"></i> Proctor Login</a><br>
                 <a href="{{'/Student/ren_Student_Login'}}"><i class="fas fa-angle-right"></i> Student Login</a><br>
-
+                <a href="{{'/Principal/PrincipalLogin'}}"><i class="fas fa-angle-right"></i> Principal Login</a><br>
           </div>
           <div class="about col-4 ps-5 align-middle">
 
-            <a href="ChiefProctor/ChiefProctorHome.php"><i class="fas fa-angle-right"></i> Admin Login</a><br>
+            <a href="{{'/defaultlogin'}}"><i class="fas fa-angle-right"></i> Admin Login</a><br>
+            <a href="{{'/ChiefProctor/ChiefProctorLogin'}}"><i class="fas fa-angle-right"></i> Chief Proctor Login</a><br>
 
           </div>
 

@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 {% block title %}Hello{% endblock %}
-
+{% block style %}
+<style>
+    body{
+    background-image: url("../static/images/Background.jpg");
+    }
+</style>
+{% endblock %}
 {% block body %}
 <form action="/defaultlogin" method="post">
 <div class="container">
-    <center><h1>Login</h1></center>
-    <div class="container bg-light py-5 my-5">
+    <div class="container bg-light py-5 my-5" style="border-radius:10px">
+    <center><h1  style="font-family:Serif">Login</h1></center>
       <div class="mb-3">
         <label class="form-label">Default ID</label>
         <input type="text" name="Name" class="form-control"/>

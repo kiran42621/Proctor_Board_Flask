@@ -12,6 +12,9 @@ import Proctor_Board.Project.app as app
 
 Students = Blueprint('Student', __name__, template_folder="templates", static_folder="static")
 
+#Check File Type
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.Allowed_Extensions
 
 # Forms
 # Student_Register_Form
@@ -89,9 +92,13 @@ def home():
             EventName = achievements.EventName.data
             PrizesWon = achievements.PrizesWon.data
             pic = request.files['Certificates']
-            Certificate = pic.read()
-            Certificate_Filename = secure_filename(pic.filename)
-            Certificate_Mimetype = pic.mimetype
+            if pic and allowed_file(pic.filename):
+                Certificate = pic.read()
+                Certificate_Filename = secure_filename(pic.filename)
+                Certificate_Mimetype = pic.mimetype
+            else:
+                flash("Image should be png, jpg, and jpeg format")
+                return render_template("StudentHome.html", form=achievements)
             Achievement = app.Achievements(current_user.Name, current_user.USN, EventType, EventName, PrizesWon, Certificate, Certificate_Filename, Certificate_Mimetype)
             app.db.session.add(Achievement)
             app.db.session.commit()
@@ -147,10 +154,14 @@ def StudentRegister():
         Part_Time_Jobs = studentregisterform.Part_Time_Jobs.data
         FuturePlans = studentregisterform.Future_Plans.data
         pic = request.files['Image']
-        Image = pic.read()
-        Image_mime = pic.mimetype
-        Image_Filename = secure_filename(pic.filename)
-        found_Student = app.Student_Personal.query.filter_by(USN = USN).first()
+        if pic and allowed_file(pic.filename):
+            Image = pic.read()
+            Image_mime = pic.mimetype
+            Image_Filename = secure_filename(pic.filename)
+            found_Student = app.Student_Personal.query.filter_by(USN = USN).first()
+        else:
+            flash("Image should be png, jpg, and jpeg format")
+            return render_template("StudentRegister.html", form=studentregisterform)
         if found_Student:
             flash("User Already exist try login")
             return render_template("StudentRegister.html", form = studentregisterform)
@@ -175,16 +186,22 @@ def StudentLogin():
     if request.method == 'POST':
         USN = studentloginform.USN.data.upper()
         session['Usertype'] = "Student"
+        User = app.Student_Personal.query.filter_by(USN = USN, Status = "Removed").first()
+        if User:
+            flash(f"You have been removed. Removal message {User.RemoveMsg}.")
+            return render_template("StudentLogin.html", form=studentloginform)
         User = app.Student_Personal.query.filter_by(USN = USN).first()
-
         if User:
             if bcrypt.checkpw(studentloginform.Password.data.encode('utf-8'), User.Password):
                 app.Usertype = "Student"
                 login_user(User)
                 return redirect(url_for('Student.home'))
+            else:
+                flash("Check Password")
+                return render_template("StudentLogin.html", form=studentloginform)
 
         else:
-            flash("Check USN and Password")
+            flash("Check USN")
             return render_template("StudentLogin.html", form=studentloginform)
     else:
         return render_template("StudentLogin.html", form=studentloginform)
@@ -225,14 +242,27 @@ def ForgotPassword():
 
 
 @Students.route("/display/<id>", methods = ['POST', 'GET'])
+@app.role_required("Student")
+@login_required
 def select(id):
     if id:
         Stu_Personal = app.Student_Personal.query.filter_by(USN = id).first()
         Stu_Family = app.Student_Family.query.filter_by(USN = id).first()
         Stu_Marks = app.Marks.query.filter_by(USN=id).all()
+        Stu_Achievements = app.Achievements.query.filter_by(USN=id).all()
+        Stu_Meeting = app.Meeting.query.filter_by(USN=id).all()
         if Stu_Personal and Stu_Family:
             image = b64encode(Stu_Personal.Image).decode("utf-8")
-            return render_template("StudentViewProfile.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks)
+            return render_template("StudentViewProfile.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks, datameetings = Stu_Meeting, dataachievements = Stu_Achievements)
         else:
             "No data found"
-    return "Else display"
+    flash("No data found")
+    return redirect(url_for("Student.home"))
+
+@Students.route("/viewcertificate/<id>", methods = ['POST', 'GET'])
+@app.role_required("Student")
+@login_required
+def viewcertificate(id):
+    certificate = app.Achievements.query.filter_by(_id=id).first()
+    image = b64encode(certificate.Certificates).decode("utf-8")
+    return render_template("Studentviewcertificate.html", image = image)

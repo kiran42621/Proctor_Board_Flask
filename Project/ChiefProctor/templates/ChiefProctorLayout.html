@@ -19,44 +19,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
 </head>
 {% block header %}
-{% if current_user.is_authenticated %}
+{% if not current_user.is_authenticated %}
   <!--Header-->
-    <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><h4>Proctor Board</h4></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="ChiefProctorHome.php">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="ChiefProctorAssign.php">Assign Proctors</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="ChiefProctorGetReport.php">Get Report</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="ChiefProctorUpdateUser.php">Update Users</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-right ms-auto mb-2 mb-lg-0">
-          <li>
-            <p class="me-4">Hello {{ current_user.name }}</p>
-          </li>
-          <li><a href="/logout"><button type="button" class="btn-sm btn-danger" name="button" >Logout</button></a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
-
-{% else %}
-
-<!--<header>-->
+<!--    <header>-->
 <!--  <nav class="navbar navbar-expand-lg navbar-light bg-primary">-->
 <!--    <div class="container-fluid">-->
 <!--      <a class="navbar-brand" href="#"><h4>Proctor Board</h4></a>-->
@@ -66,13 +31,49 @@
 <!--      <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
 <!--        <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
 <!--          <li class="nav-item">-->
-<!--            <a class="nav-link active" aria-current="page" href="/home">Home</a>-->
+<!--            <a class="nav-link active" aria-current="page" href="ChiefProctorHome.">Home</a>-->
 <!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link active" aria-current="page" href="ChiefProctorAssign.php">Assign Proctors</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link active" aria-current="page" href="ChiefProctorGetReport.php">Get Report</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item">-->
+<!--            <a class="nav-link active" aria-current="page" href="ChiefProctorUpdateUser.php">Update Users</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--        <ul class="navbar-nav navbar-right ms-auto mb-2 mb-lg-0">-->
+<!--          <li>-->
+<!--            <p class="me-4">Hello {{ current_user.name }}</p>-->
+<!--          </li>-->
+<!--          <li><a href="/logout"><button type="button" class="btn-sm btn-danger" name="button" >Logout</button></a></li>-->
 <!--        </ul>-->
 <!--      </div>-->
 <!--    </div>-->
 <!--  </nav>-->
 <!--</header>-->
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><h4>Proctor Board</h4></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+{% else %}
+
+
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-primary">
     <div class="container-fluid">
@@ -94,9 +95,9 @@
         </ul>
         <ul class="navbar-nav navbar-right ms-auto mb-2 mb-lg-0">
           <li>
-            <p class="me-4">Hello Name</p>
+            <p class="me-4">Hello {{ current_user.Name }}</p>
           </li>
-          <li><a href="/logout"><button type="button" class="btn btn-danger" name="button" >Logout</button></a></li>
+          <li><a href="/logout"><button type="button" class="btn btn-sm btn-danger" name="button" >Logout</button></a></li>
         </ul>
       </div>
     </div>
@@ -126,11 +127,12 @@
 
                 <a href="{{'/Proctor/ProctorLogin'}}"><i class="fas fa-angle-right"></i> Proctor Login</a><br>
                 <a href="{{'/Student/ren_Student_Login'}}"><i class="fas fa-angle-right"></i> Student Login</a><br>
-                <a href="{{'/Principal/'}}"><i class="fas fa-angle-right"></i> Principal Login</a><br>
+                <a href="{{'/Principal/PrincipalLogin'}}"><i class="fas fa-angle-right"></i> Principal Login</a><br>
           </div>
           <div class="about col-4 ps-5 align-middle">
 
-            <a href="ChiefProctor/ChiefProctorHome.php"><i class="fas fa-angle-right"></i> Admin Login</a><br>
+            <a href="{{'/defaultlogin'}}"><i class="fas fa-angle-right"></i> Admin Login</a><br>
+            <a href="{{'/ChiefProctor/ChiefProctorLogin'}}"><i class="fas fa-angle-right"></i> Chief Proctor Login</a><br>
 
           </div>
 
@@ -145,7 +147,7 @@
       </center>
     </div>
 </footer>
-    {% endblock %}
+{% endblock %}
 
 </html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

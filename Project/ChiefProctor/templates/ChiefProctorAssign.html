@@ -14,14 +14,37 @@
 
         <div class="container my-5">
           <div class="container bg-light p-3 border ">
+              <form action="/ChiefProctor/quicksearch" method = "POST">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md">
+                            <center>
+                            <label class="form-label"><strong>Search By :</strong></label>
+                            </center>
+                        </div>
+                        <div class="col-md">
+                            <select class="form-control" name="type">
+                            <option value="BloodGroup">Blood Group</option>
+                            <option value="Hobbies">Hobbies</option>
+                        </select>
+                        </div>
+                        <div class="col-md">
+                            <input type="text" name="string" class="form-control" placeholder="Enter Search String">
+                        </div>
+                        <div class="col-md">
+                            <input type="submit" class="btn btn-outline-success" value="Search" name="search" placeholder="Enter Search String">
+                        </div>
+                    </div>
+                </div>
+              </form>
             <form action="/ChiefProctor/Assign" method="post">
           <div class="row text-center mt-3">
             <div class="col-md-auto">
                 <label class="form-label" for="">Select Proctor name to assign</label>
             </div>
             <div class="col-md-auto">
-              <select id="inputState" class="form-select" name="Proctor_Name">
-                  <option selected>Proctor Names</option>
+              <select id="inputState" class="form-select" name="Proctor_Name" required>
+                  <option selected value="name">Proctor Names</option>
                   {% for rows in Proctor_data %}
                   <option value="{{ rows.EmployeeID }}">{{ rows.Name }} - {{ rows.Department }}</option>
                   {% endfor %}
@@ -61,7 +84,7 @@
             </table>
         </div>
         <div class="col d-flex justify-content-center">
-          <button class="btn btn-success" type="submit" name="submit" id="submit">Submit</button>
+          <button class="btn btn-success" type="submit" value="Submit" name="submit" id="submit">Submit</button>
         </div>
            </form>
         </div>
@@ -85,8 +108,9 @@
       <div class="modal-body">
         <form action="/ChiefProctor/RemoveStudents" method="post">
         <label for="" class="form-label">Are you sure to Remove this user? if yes enter removal message.</label>
-        <input type="textarea" class="form-control" name="Removal_User_ID" id="RemovalUserId" value="">
-        <input type="textarea" class="form-control" name="Removal_Message" id="RemovalMessage" value="">
+        <input type="hidden" name="hidden_Removal_Id" id="hiddenRemovalId">
+        <input type="textarea" class="form-control" name="Removal_User_ID" id="RemovalUserId" value="" disabled>
+        <input type="textarea" class="form-control" name="Removal_Message" id="RemovalMessage" value="" required>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -108,6 +132,7 @@
     $(document).on('click', '#Remove', function(){
         var id = $(this).attr("value");
         document.getElementById("RemovalUserId").value = id;
+        document.getElementById("hiddenRemovalId").value = id;
     });
 </script>
 {% endblock jscript %}

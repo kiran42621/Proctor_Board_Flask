@@ -21,6 +21,7 @@
           <h5 class="info-Detail">Year of Enrolment : {{ data.Year }}</h5>
           <h5 class="info-Detail">Semester : {{ data.Semester }}</h5>
           <h5 class="info-Detail">Proctor : {{ data.Proctor }}</h5>
+          <h5 class="info-Detail">Blood Group : {{ data.BloodGroup }}</h5>
           <h5 class="info-Detail">Gender : {{ data.Gender }}</h5>
           <h5 class="info-Detail">Mobile Number : {{ data.Mobile }}</h5>
           <h5 class="info-Detail">Date of Birth : {{ data.DOB }}</h5>
@@ -68,7 +69,7 @@
       <h3 class="info-Detail"><strong>Academic Detail</strong></h3>
       <div class="col-md">
         <pre class="info-Text">  {{ data.Name }} has Studied SSLC in {{ data2.SSLC_Institute }} in the year of {{ data2.SSLC_Year }} with the percentage of {{ data2.SSLC_Percentage }}%.</pre>
-        <pre class="info-Text">  {{ data.Name }} has Studied PUC in {{ data2.SSLC_Institute }} in the year of {{ data2.PUC_Year }} with the percentage of {{ data2.PUC_Percentage }}%.</pre>
+        <pre class="info-Text">  {{ data.Name }} has Studied PUC in {{ data2.PUC_Institute }} in the year of {{ data2.PUC_Year }} with the percentage of {{ data2.PUC_Percentage }}%.</pre>
       </div>
       <hr>
      <h3 class="info-Detail"><strong>General Details</strong></h3>
@@ -80,12 +81,10 @@
     <hr>
       <h3 class="info-Detail"><strong>Marks</strong></h3>
     <div class="col">
-        {% for i in range(data.Semester) %}
-
-        <h5 class="info-Detail"><strong>Semester : {{ i+1 }}</strong></h5>
+        {% for i in range(1,data.Semester+1) %}
+        <h5 class="info-Detail"><strong>Semester : {{ i }}</strong></h5>
         {% for rows in datamarks %}
-        {% set count = i+1 %}
-        {% if count|string() in rows.Semester %}
+        {% if rows.Semester == i|string %}
         <div class="row">
         <div class="col-auto pe-3">
           <h5 class="info-Detail">{{rows.Subject }}</h5>
@@ -100,25 +99,47 @@
         {% endif %}
         {% endfor %}
         {% endfor %}
+
+        {% for i in range(data.Semester+1) %}
+        {% for rows in datameetings %}
+        {% if rows.Semester == i|string %}
         <h5 class="info-Detail"><strong>Meeting Details :</strong></h5>
+        <h5 class="info-Detail"><strong>Semester :</strong>{{rows.Semester}}</h5>
         <div class="col-auto">
-          <h5 class="info-Detail">Date : 01/02/2003</h5>
-          <h5 class="info-Detail">Achievements / Difficulties : Text</h5>
-          <h5 class="info-Detail">Goal Setting : Text</h5>
-          <h5 class="info-Detail">Work Plan : Text</h5>
+          <h5 class="info-Detail">Date : {{rows.DateTime}}</h5>
+          <h5 class="info-Detail">Achievements / Difficulties : {{rows.Achievements_Difficulties}}</h5>
+          <h5 class="info-Detail">Goal Setting : {{rows.GoalSetting}}</h5>
+          <h5 class="info-Detail">Work Plan : {{rows.Workplan}}</h5>
         </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
       </div>
       <hr>
     <h3 class="info-Detail"><strong>Events Participated</strong></h3>
       <div class="row">
-        <div class="col-auto">
-          <h5 class="info-Detail"><strong>Event Name</strong></h5>
-          <h5 class="info-Detail">Event 1</h5>
-        </div>
-        <div class="col-auto">
-          <h5 class="info-Detail"><strong>Prizes Won</strong></h5>
-          <h5 class="info-Detail">Prize 1</h5>
-        </div>
+          <table>
+              <tr style="font-size:20px">
+                  <th>Event Name</th>
+                  <th>Prizes Won</th>
+                  <th>View</th>
+              </tr>
+              {% for rows in dataachievements %}
+              <tr>
+                  <td><a href="/ChiefProctor/viewcertificate/{{rows._id}}">{{rows.EventName}}</a></td>
+                  <td>{{rows.PrizesWon}}</td>
+                  <td>{{rows.Certificates_Filename}}</td>
+              </tr>
+              {% endfor %}
+          </table>
+<!--        <div class="col-auto">-->
+<!--          <h5 class="info-Detail"><strong>Event Name</strong></h5>-->
+<!--          <h5 class="info-Detail">Event 1</h5>-->
+<!--        </div>-->
+<!--        <div class="col-auto">-->
+<!--          <h5 class="info-Detail"><strong>Prizes Won</strong></h5>-->
+<!--          <h5 class="info-Detail">Prize 1</h5>-->
+<!--        </div>-->
       </div>
     <div class="d-flex flex-row-reverse bd-highlight">
     <a href="/ChiefProctor/Assign"><input class="btn btn-outline-success mt-3 bd-highlight" type="button" value="Back"></input></a>

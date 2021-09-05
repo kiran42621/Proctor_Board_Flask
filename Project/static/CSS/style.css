@@ -49,3 +49,14 @@ body{
   font-family: serif;
   font-size: 20px
 }
+.nav-titles{
+    font-family: courier;
+    font-weight: bold;
+}
+.nav-childs{
+    font-family: serif;
+    font-size: 20px;
+}
+.nav-childs:hover {
+    color: green;
+}

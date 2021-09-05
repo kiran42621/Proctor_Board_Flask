@@ -9,6 +9,7 @@ from wtforms.validators import InputRequired, EqualTo, length
 from flask_login import login_required, login_user
 from datetime import datetime
 from flask_login import current_user
+from base64 import b64encode
 
 Proctors = Blueprint('Proctor', __name__, template_folder="templates", static_folder="static")
 
@@ -73,8 +74,11 @@ def ProctorLogin():
         Proctor = app.Proctor.query.filter_by(EmployeeID = EmployeeID, Status = "Active").first()
         if Proctor:
             if bcrypt.checkpw(proctorloginform.Password.data.encode('utf-8'), Proctor.Password):
+                app.Usertype = "Proctor"
                 login_user(Proctor)
                 return redirect(url_for("Proctor.ProctorHome"))
+            else:
+                return "Check Username & Password"
         else:
             return "Check Username & Password"
 
@@ -86,7 +90,7 @@ def ProctorLogin():
 @login_required
 @app.role_required('Proctor')
 def ProctorHome():
-    Students = app.Student_Personal.query.filter_by(ProctorID = current_user.EmployeeID).all()
+    Students = app.Student_Personal.query.filter_by(ProctorID = current_user.EmployeeID, Status='Active').all()
     Announcements = app.Announcement.query.all()
     if Students:
         return render_template("ProctorHome.html", data=Students, count=0, data1 = Announcements)
@@ -105,7 +109,7 @@ def ProctorMarks():
             else:
                 USN = request.form['inputUSN'].upper()
                 print(current_user._id)
-                Student_Detail = app.Student_Personal.query.filter_by(USN = USN, ProctorID = current_user.EmployeeID).first()
+                Student_Detail = app.Student_Personal.query.filter_by(USN = USN, ProctorID = current_user.EmployeeID, Status='Active').first()
                 if Student_Detail:
                     session['temp_Name'] = Student_Detail.Name
                     session['temp_USN'] = Student_Detail.USN
@@ -150,12 +154,16 @@ def ProctorMeeting():
                 return redirect(url_for("Proctor.ProctorMeeting"))
             else:
                 USN = request.form['inputUSN'].upper()
-                Student_Detail = app.Student_Personal.query.filter_by(USN=USN).first()
-                session['temp_Name'] = Student_Detail.Name
-                session['temp_USN'] = Student_Detail.USN
-                session['temp_Dept'] = Student_Detail.ProgramEnrolled
-                session['temp_Semester'] = Student_Detail.Semester
-                return render_template("ProctorMeeting.html", data=Student_Detail)
+                Student_Detail = app.Student_Personal.query.filter_by(USN=USN, ProctorID = current_user.EmployeeID, Status='Active').first()
+                if Student_Detail:
+                    session['temp_Name'] = Student_Detail.Name
+                    session['temp_USN'] = Student_Detail.USN
+                    session['temp_Dept'] = Student_Detail.ProgramEnrolled
+                    session['temp_Semester'] = Student_Detail.Semester
+                    return render_template("ProctorMeeting.html", data=Student_Detail)
+                else:
+                    flash("Currently you are unable to view this student")
+                    return redirect(url_for("Proctor.ProctorMeeting"))
 
         if request.form.get('Submit', None):
             USN = session['temp_USN']
@@ -202,4 +210,36 @@ def ForgotPassword():
                 flash("Both the password should same")
                 return render_template("ProctorForgotPassword.html", data=Proctor)
     return render_template("ProctorForgotPassword.html")
+
+#Display_Student_Details
+@Proctors.route("/display/<id>", methods = ['POST', 'GET'])
+@login_required
+@app.role_required('Proctor')
+def select(id):
+    if id:
+        Stu_Personal = app.Student_Personal.query.filter_by(USN = id).first()
+        if not Stu_Personal:
+            flash("No student found")
+            return redirect(url_for('Proctor.ProctorHome'))
+        if Stu_Personal.ProctorID != current_user.EmployeeID:
+            flash("Currently you are not able to view this student")
+            return redirect(url_for('Proctor.ProctorHome'))
+        Stu_Family = app.Student_Family.query.filter_by(USN = id).first()
+        Stu_Marks = app.Marks.query.filter_by(USN=id).all()
+        Stu_Achievements = app.Achievements.query.filter_by(USN=id).all()
+        Stu_Meeting = app.Meeting.query.filter_by(USN=id).all()
+        if Stu_Personal and Stu_Family:
+            image = b64encode(Stu_Personal.Image).decode("utf-8")
+            return render_template("ProctorGetReport.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks, datameetings = Stu_Meeting, dataachievements = Stu_Achievements)
+        else:
+            "No data found"
+    return "Else display"
+
+@Proctors.route("/viewcertificate/<id>", methods = ['POST', 'GET'])
+@app.role_required("Proctor")
+@login_required
+def viewcertificate(id):
+    certificate = app.Achievements.query.filter_by(_id=id).first()
+    image = b64encode(certificate.Certificates).decode("utf-8")
+    return render_template("Proctorshowcertificate.html", image = image)
 

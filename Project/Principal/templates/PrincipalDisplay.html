@@ -10,10 +10,10 @@
     {% endif %}
 {% endwith %}
 <div class="container my-3">
-      <center>
+    <center>
         <h2 class="info-head"><strong>Student Information</strong></h2>
       </center>
-      <div class="row mt-5">
+    <div class="row mt-5">
         <div class="col">
           <h5 class="info-Detail">Name : {{ data.Name }}</h5>
           <h5 class="info-Detail">Register Number : {{ data.USN }}</h5>
@@ -21,6 +21,7 @@
           <h5 class="info-Detail">Year of Enrolment : {{ data.Year }}</h5>
           <h5 class="info-Detail">Semester : {{ data.Semester }}</h5>
           <h5 class="info-Detail">Proctor : {{ data.Proctor }}</h5>
+            <h5 class="info-Detail">Blood Group : {{ data.BloodGroup }}</h5>
           <h5 class="info-Detail">Gender : {{ data.Gender }}</h5>
           <h5 class="info-Detail">Mobile Number : {{ data.Mobile }}</h5>
           <h5 class="info-Detail">Date of Birth : {{ data.DOB }}</h5>
@@ -33,7 +34,7 @@
           <img class="info-image img-responsive rounded float-end" src="data:;base64,{{ image }}" alt="image">
         </div>
       </div>
-      <hr>
+    <hr>
       <h3 class="info-Detail"><strong>Family Detail</strong></h3>
       <div class="row mt-3">
         <div class="col-md-6">
@@ -48,7 +49,7 @@
         </div>
         <br>
       </div>
-      <div class="row mt-3">
+    <div class="row mt-3">
         {% if data2.Sibling1_Name %}
         <div class="col-md-6">
           <h5 class="info-Detail">Sibling 1 Name : Name</h5>
@@ -64,28 +65,26 @@
         </div>
         {% endif %}
       </div>
-      <hr>
+    <hr>
       <h3 class="info-Detail"><strong>Academic Detail</strong></h3>
       <div class="col-md">
         <pre class="info-Text">  {{ data.Name }} has Studied SSLC in {{ data2.SSLC_Institute }} in the year of {{ data2.SSLC_Year }} with the percentage of {{ data2.SSLC_Percentage }}%.</pre>
         <pre class="info-Text">  {{ data.Name }} has Studied PUC in {{ data2.PUC_Institute }} in the year of {{ data2.PUC_Year }} with the percentage of {{ data2.PUC_Percentage }}%.</pre>
       </div>
       <hr>
-      <h3 class="info-Detail"><strong>General Details</strong></h3>
+     <h3 class="info-Detail"><strong>General Details</strong></h3>
       <div class="col-md-8">
         <h5 class="info-Detail">Hobbies : {{ data.Hobbies }}</h5>
         <h5 class="info-Detail">Part time jobs : {{ data2.Part_Time_Jobs }}</h5>
         <h5 class="info-Detail">Future plans : {{ data.Future_Plans }}</h5>
       </div>
-      <hr>
+    <hr>
       <h3 class="info-Detail"><strong>Marks</strong></h3>
     <div class="col">
-  {% for i in range(data.Semester) %}
-
-        <h5 class="info-Detail"><strong>Semester : {{ i+1 }}</strong></h5>
+        {% for i in range(1,data.Semester+1) %}
+        <h5 class="info-Detail"><strong>Semester : {{ i }}</strong></h5>
         {% for rows in datamarks %}
-        {% set count = i+1 %}
-        {% if count|string() in rows.Semester %}
+        {% if rows.Semester == i|string %}
         <div class="row">
         <div class="col-auto pe-3">
           <h5 class="info-Detail">{{rows.Subject }}</h5>
@@ -100,29 +99,50 @@
         {% endif %}
         {% endfor %}
         {% endfor %}
+
+        {% for i in range(data.Semester+1) %}
+        {% for rows in datameetings %}
+        {% if rows.Semester == i|string %}
         <h5 class="info-Detail"><strong>Meeting Details :</strong></h5>
+        <h5 class="info-Detail"><strong>Semester :</strong>{{rows.Semester}}</h5>
         <div class="col-auto">
-          <h5 class="info-Detail">Date : 01/02/2003</h5>
-          <h5 class="info-Detail">Achievements / Difficulties : Text</h5>
-          <h5 class="info-Detail">Goal Setting : Text</h5>
-          <h5 class="info-Detail">Work Plan : Text</h5>
+          <h5 class="info-Detail">Date : {{rows.DateTime}}</h5>
+          <h5 class="info-Detail">Achievements / Difficulties : {{rows.Achievements_Difficulties}}</h5>
+          <h5 class="info-Detail">Goal Setting : {{rows.GoalSetting}}</h5>
+          <h5 class="info-Detail">Work Plan : {{rows.Workplan}}</h5>
         </div>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
       </div>
       <hr>
-      <h3 class="info-Detail"><strong>Events Participated</strong></h3>
+    <h3 class="info-Detail"><strong>Events Participated</strong></h3>
       <div class="row">
-        <div class="col-auto">
-          <h5 class="info-Detail"><strong>Event Name</strong></h5>
-          <h5 class="info-Detail">Event 1</h5>
-        </div>
-        <div class="col-auto">
-          <h5 class="info-Detail"><strong>Prizes Won</strong></h5>
-          <h5 class="info-Detail">Prize 1</h5>
-        </div>
+          <table>
+              <tr style="font-size:20px">
+                  <th>Event Name</th>
+                  <th>Prizes Won</th>
+                  <th>View</th>
+              </tr>
+              {% for rows in dataachievements %}
+              <tr>
+                  <td><a href="/Principal/viewcertificate/{{rows._id}}">{{rows.EventName}}</a></td>
+                  <td>{{rows.PrizesWon}}</td>
+                  <td>{{rows.Certificates_Filename}}</td>
+              </tr>
+              {% endfor %}
+          </table>
+<!--        <div class="col-auto">-->
+<!--          <h5 class="info-Detail"><strong>Event Name</strong></h5>-->
+<!--          <h5 class="info-Detail">Event 1</h5>-->
+<!--        </div>-->
+<!--        <div class="col-auto">-->
+<!--          <h5 class="info-Detail"><strong>Prizes Won</strong></h5>-->
+<!--          <h5 class="info-Detail">Prize 1</h5>-->
+<!--        </div>-->
       </div>
     <div class="d-flex flex-row-reverse bd-highlight">
     <a href="/Principal/"><input class="btn btn-outline-success mt-3 bd-highlight" type="button" value="Back"></input></a>
-    </div>
     </div>
 </div>
 {% endblock body%}

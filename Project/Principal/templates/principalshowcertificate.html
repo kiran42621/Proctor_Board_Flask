@@ -1,0 +1,15 @@
+{% extends "Principallayout.html" %}
+{% block title %}Student Register{% endblock %}
+
+{% block body %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{msg}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <div class="container">
+        <img src="data:;base64,{{ image }}" alt="image" style="width:100%;height:100vh;" />
+    </div>
+{% endblock body%}

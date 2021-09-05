@@ -66,7 +66,7 @@
         </div>
         <!-- Table -->
         <div class="pt-4">
-          <table id="myTable" class="table table-striped" style="width:100%">
+          <table id="myTable" class="table table-striped" style="width:100%" border="1">
             <thead>
                     <tr>
                         <th>Sl no.</th>
@@ -79,12 +79,9 @@
                 <tbody>
                 {% for rows in data %}
                     <tr>
-<<<<<<< HEAD
+
                         <td>{{ loop.index }}</td>
-=======
-                        <td scope="row">{{ loop.index }}</td>
->>>>>>> main
-                        <td><a href="#">{{ rows['USN'] }}</a></td>
+                        <td><a href="/Proctor/display/{{rows['USN']}}">{{ rows['USN'] }}</a></td>
                         <td>{{ rows['Name'] }}</td>
                         <td>{{ rows['Mobile'] }}</td>
                         <td>{{ rows['DOB'] }}</td>

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Hello{% endblock %}
-
+{% block style %}
+<style>
+    body{
+    background-image: url("../static/images/Background.jpg");
+    }
+</style>
+{% endblock %}
 {% block body %}
 
 {% with messages = get_flashed_messages() %}
@@ -12,7 +18,7 @@
 {% endwith %}
 
 <div class="container-fluid">
-    <div class="container bg-light py-3">
+    <div class="container bg-light my-4 py-3" style="border-radius:10px">
       <form class="row g-3" action="/defaulthome" method="post" enctype="multipart/form-data">
         {{ form.csrf_token }}
         <h2>Personal Details</h2>

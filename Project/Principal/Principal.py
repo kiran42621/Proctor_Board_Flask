@@ -19,10 +19,27 @@ class PrincipalLoginForm(FlaskForm):
 @login_required
 @app.role_required('Principal')
 def PrincipalHome():
-    Students = app.Student_Personal.query.all()
+    Students = app.Student_Personal.query.filter_by(Status = 'Active').all()
+    Announcement = app.Announcement.query.all()
     if Students:
-        return render_template("PrincipalHome.html", data=Students, count=0)
+        return render_template("PrincipalHome.html", data=Students, count=0, Announcement=Announcement)
     return render_template("PrincipalHome.html")
+
+@Principals.route("/quicksearch", methods=['GET','POST'])
+@login_required
+@app.role_required("Principal")
+def quicksearch():
+    if request.method == "POST":
+        type = request.form['type']
+        string = request.form['string']
+        Announcement = app.Announcement.query.all()
+        if type == "Hobbies":
+            Students = app.Student_Personal.query.filter(app.Student_Personal.Hobbies.like("%" + string + "%")).filter_by(Status = "Active").all()
+        elif type == "BloodGroup":
+            Students = app.Student_Personal.query.filter(app.Student_Personal.BloodGroup.like("%" + string + "%")).filter_by(Status="Active").all()
+        Proctors = app.Proctor.query.filter_by(Status="Active").all()
+        return render_template("PrincipalHome.html", data=Students, count=0, Announcement=Announcement)
+
 
 @Principals.route("/display/<id>", methods = ['POST', 'GET'])
 def select(id):
@@ -30,9 +47,11 @@ def select(id):
         Stu_Personal = app.Student_Personal.query.filter_by(USN = id).first()
         Stu_Family = app.Student_Family.query.filter_by(USN = id).first()
         Stu_Marks = app.Marks.query.filter_by(USN=id).all()
+        Stu_Achievements = app.Achievements.query.filter_by(USN=id).all()
+        Stu_Meeting = app.Meeting.query.filter_by(USN=id).all()
         if Stu_Personal and Stu_Family:
             image = b64encode(Stu_Personal.Image).decode("utf-8")
-            return render_template("PrincipalDisplay.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks)
+            return render_template("PrincipalDisplay.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks, datameetings = Stu_Meeting, dataachievements = Stu_Achievements)
         else:
             "No data found"
     return "Else display"
@@ -76,8 +95,18 @@ def PrincipalLogin():
             if bcrypt.checkpw(principalloginform.Password.data.encode('utf-8'), Proctor.Password):
                 login_user(Proctor)
                 return redirect(url_for("Principal.PrincipalHome"))
+            else :
+                return "Check Password"
         else:
             return "Check Username & Password"
 
     else:
         return render_template("PrincipalLogin.html", form=principalloginform)
+
+@Principals.route("/viewcertificate/<id>", methods = ['POST', 'GET'])
+@app.role_required("Principal")
+@login_required
+def viewcertificate(id):
+    certificate = app.Achievements.query.filter_by(_id=id).first()
+    image = b64encode(certificate.Certificates).decode("utf-8")
+    return render_template("principalshowcertificate.html", image = image)

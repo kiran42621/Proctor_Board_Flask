@@ -72,8 +72,8 @@
       <tr>
         <th scope="row">{{ loop.index }}</th>
         <td>{{ rows }}</td>
-        <td><input type="number" name="inputMarks[]" value=""></td>
-        <td><input type="text" name="inputRemarks[]" value=""></td>
+        <td><input type="number" name="inputMarks[]" value="" required></td>
+        <td><input type="text" name="inputRemarks[]" value="" required></td>
       </tr>
     {% endfor %}
     </tbody>

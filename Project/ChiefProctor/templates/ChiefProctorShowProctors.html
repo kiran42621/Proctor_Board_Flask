@@ -63,8 +63,9 @@
       <div class="modal-body">
         <form action="/ChiefProctor/RemoveProctors" method="post">
         <label for="" class="form-label">Are you sure to Remove this user? if yes enter removal message.</label>
-        <input type="textarea" class="form-control" name="Removal_User_ID" id="RemovalUserId" value="">
-        <input type="textarea" class="form-control" name="Removal_Message" id="RemovalMessage" value="">
+        <input type="hidden" name="hidden_Removal_Id" id="hiddenRemovalId">
+        <input type="textarea" class="form-control" name="Removal_User_ID" id="RemovalUserId" value="" disabled>
+        <input type="textarea" class="form-control" name="Removal_Message" id="RemovalMessage" value="" required>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -86,6 +87,7 @@
     $(document).on('click', '#Remove', function(){
         var id = $(this).attr("value");
         document.getElementById("RemovalUserId").value = id;
+        document.getElementById("hiddenRemovalId").value = id;
     });
 </script>
 {% endblock jscript %}

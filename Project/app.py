@@ -44,6 +44,7 @@ Password_Recover_Questions = {'Choose Question':'Choose Question','What is the n
 Blood_Group = {'A-Positive':'A+', 'A-Negative':'A-', 'B-Positive':'B+', 'B-Negative':'B-', 'AB-Positive':'AB+', 'AB-Negative':'AB-', 'O-Positive':'O+', 'O-Negative':'O-', 'NA':'Not Known'}
 EventType = {'Co-Curricular':'Co-Curricular','Cultural':'Cultural','Seminar / Paper Presentation':'Seminar/Paper-Presentation','Sports':'Sports'}
 Users = {'ChiefProctor':'ChiefProctor','Principal':'Principal'}
+Allowed_Extensions = set(['png','jpg','jpeg'])
 
 #declaring_Subjects
 Columns = ['1','2','3','4','5','6']
@@ -60,15 +61,6 @@ arrays = [[['BCA11','BCA12','BCA13'],['BCA21','BCA22','BCA23'],['BCA31','BCA32',
 panda_df = pd.DataFrame(data = arrays, index = Rows, columns = Columns)
 
 print(panda_df['1']['BCA'])
-
-# matrix = np.reshape(({'BCA11','BCA12','BCA13'},{'BCA21','BCA22','BCA23'},{'BCA31','BCA32','BCA33'},
-#                      {'Bcom11','Bcom12','Bcom13'},{'Bcom21','Bcom22','Bcom23'},{'Bcom31','Bcom32','Bcom33'},
-#                      {'Bsc11','Bsc12','Bsc13'},{'Bsc21','Bsc22','Bsc23'},{'Bsc31','Bsc32','Bsc33'}),(3,3))
-# df = pd.DataFrame(matrix, columns=Columns, index=Rows)
-# print(df['1']['BCA'])
-
-# df = pd.DataFrame.from_items([('BCA', ['BCA11', 'BCA12', 'BCA13']), ('Bsc', ['Bsc11', 'Bsc12', 'Bsc13'])],orient='index', columns=['one', 'two', 'three'])
-# print(df)
 
 #included_modules
 bootstrap = Bootstrap(app)
@@ -359,17 +351,15 @@ def role_required(roles):
     def decorator(f):
         @wraps(f)
         def roles_required(*args, **kwargs):
-
             if current_user:
-
-                if not current_user.RoleID in roles:
-                    print("Working in wraps")
-                    flash("You do not have permission to access this page", "warning")
+                if not current_user.RoleID == roles:
+                    #print("Working in wraps")
+                    #flash("You do not have permission to access this page", "warning")
                     abort(404, "You don't have permission to access this page ")
                 return f(*args, **kwargs)
             else:
-                print("Working in wraps")
-                flash("You do not have permission to access this page", "warning")
+                #print("Working in wraps")
+                #flash("You do not have permission to access this page", "warning")
                 abort(404)
         return roles_required
     return decorator
@@ -380,7 +370,7 @@ def role_required(roles):
 class FeedbackForm(FlaskForm):
     Name = StringField('Name',[InputRequired()])
     Designation = SelectField(choices=Courses)
-    Feedback = TextAreaField()
+    Feedback = TextAreaField('Feedback',[InputRequired()])
 
 #PRoctor_Details
 class ProctorRegistrationForm(FlaskForm):
@@ -404,6 +394,11 @@ def load_user(user_id):
         return Student_Personal.query.filter_by(_id=user_id).first()
     elif session['Usertype'] == "Proctor":
         return Proctor.query.filter_by(_id=user_id).first()
+    elif session['Usertype'] == "ChiefProctor":
+        return Proctor.query.filter_by(_id=user_id).first()
+    elif session['Usertype'] == "Principal":
+        return Proctor.query.filter_by(_id=user_id).first()
+
 
 #routes
 #route_Home

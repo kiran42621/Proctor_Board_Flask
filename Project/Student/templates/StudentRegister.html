@@ -1,8 +1,20 @@
 {% extends "layout.html" %}
 {% block title %}Student Register{% endblock %}
 
-{% block body %}
+{% block script %}
+<script>
+  function checkBtn(){
+    if(error.length > 0){
+      document.getElementById("btn_Register").disabled = true;
+    }
+    else{
+      document.getElementById("btn_Register").disabled = false;
+    }
+  }
+</script>
+{% endblock %}
 
+{% block body %}
 
 {% for errors in form.SSLC_Institute.errors %}
     <small class="form-text text-muted">
@@ -25,7 +37,7 @@
         <h2>Personal Details</h2>
         <div class="col-md-6">
           <label for="" class="form-label">Name</label>
-          {{ form.Name(class_="form-control",id="Student_Name",oninput="Validate_Name('Student_Name','Name_Error')") }}
+          {{ form.Name(class_="form-control",id="Student_Name",oninput="Validate_Name('Student_Name','Name_Error','btn_Register')") }}
           {% for errors in form.Name.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -35,7 +47,7 @@
         </div>
         <div class="col-md-6">
           <label for="" class="form-label">Register Number</label>
-          {{ form.USN(class_="form-control",id="Student_USN",oninput="Validate_USN('Student_USN','USN_Error','USN')") }}
+          {{ form.USN(class_="form-control",id="Student_USN",oninput="Validate_USN('Student_USN','USN_Error','USN','btn_Register')") }}
           {% for errors in form.USN.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -81,7 +93,7 @@
         </div>
         <div class="col-md-3">
           <label for="" class="form-label">Mobile No.</label>
-          {{ form.Mobile(class_="form-control", type="number",id="Student_Number",oninput="Validate_Number('Student_Number','Number_Error')") }}
+          {{ form.Mobile(class_="form-control", type="number",id="Student_Number",oninput="Validate_Number('Student_Number','Number_Error','btn_Register')") }}
           {% for errors in form.Mobile.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -285,17 +297,17 @@
         {% endfor %}
         <div class="col-6">
           <label class="form-label">Enter Password</label>
-          {{ form.Password(class_="form-control",id="Proc_Password1",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error')") }}
+          {{ form.Password(class_="form-control",id="Proc_Password1",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error','btn_Register')") }}
         </div>
         <div class="col-6">
           <label class="form-label">Re Enter Password</label>
-          {{ form.Confirm_Password(class_="form-control",id="Proc_Password2",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error')") }}
+          {{ form.Confirm_Password(class_="form-control",id="Proc_Password2",oninput="Validate_Password('Proc_Password1','Proc_Password2','Password_Error','btn_Register')") }}
         </div>
         <span id="Password_Error" style="color:red"></span>
         <div class="col-6">
           <label class="form-label">Password Recovery Question 1</label>
-          {{ form.PasswordQ1(class_="form-control",id="Password_Recover1",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
-          {{ form.PasswordA1(class_="form-control",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
+          {{ form.PasswordQ1(class_="form-control",id="Password_Recover1",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover','btn_Register')") }}
+          {{ form.PasswordA1(class_="form-control",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover','btn_Register')") }}
           {% for errors in form.PasswordA1.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
@@ -304,7 +316,7 @@
         </div>
         <div class="col-6">
           <label class="form-label">Password Recovery Question 2</label>
-          {{ form.PasswordQ2(class_="form-control",id="Password_Recover2",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover')") }}
+          {{ form.PasswordQ2(class_="form-control",id="Password_Recover2",onchange="validate_password_recover('Password_Recover1','Password_Recover2','Password_Recover','btn_Register')") }}
           {{ form.PasswordA2(class_="form-control") }}
           {% for errors in form.PasswordA2.errors %}
           <p style="font-family:serif;color:red">
@@ -319,4 +331,5 @@
       </form>
     </div>
   </div>
+
 {% endblock body%}

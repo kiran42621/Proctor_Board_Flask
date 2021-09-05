@@ -1,6 +1,12 @@
 {% extends "Proctorlayout.html" %}
 {% block title %}Student Register{% endblock %}
-
+{% block style %}
+<style>
+    body{
+    background-image: url("../static/images/PLoginBG.png");
+    }
+</style>
+{% endblock %}
 {% block body %}
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -12,12 +18,13 @@
 <form action="/Proctor/ProctorLogin" method="post" >
   {{ form.csrf_token }}
 <div class="container-fluid big-banner p-1" >
-    <div class="container login-box " >
-      <div class="col-6 mb-3">
-        <label for="formGroupExampleInput" class="form-label">Employee Id</label>
+    <div class="container login-box bg-light p-5" style="border-radius:10px;width:50%" >
+      <div class="col-12 mb-3">
+          <center><strong><h2 style="font-family:Serif">Employee Login</h2></strong></center>
+        <label for="formGroupExampleInput" class="form-label mt-3">Employee Id</label>
         {{ form.EmployeeID(class_="form-control") }}
       </div>
-      <div class="col-6 mb-3">
+      <div class="col-12 mb-3">
         <label for="formGroupExampleInput2" class="form-label">Password</label>
        {{ form.Password(class_="form-control") }}
       </div>
