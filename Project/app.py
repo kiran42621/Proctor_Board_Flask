@@ -344,6 +344,7 @@ class Achievements(db.Model):
 admin = Admin(app)
 admin.add_view(ModelView(Student_Personal, db.session))
 admin.add_view(ModelView(Student_Family, db.session))
+admin.add_view(ModelView(Feedback, db.session))
 
 
 #Decorators
@@ -474,8 +475,7 @@ def defaulthome():
                 return redirect(url_for('defaulthome'))
 
             else:
-                new_proctor = Proctor(Name, EmployeeID, Department, Mobile, BloodGroup, Password, PasswordQ1,
-                                          PasswordA1, PasswordQ2, PasswordA2, '', Usertype, 'Active')
+                new_proctor = Proctor(Name, EmployeeID, Department, Mobile, BloodGroup, Password, PasswordQ1,PasswordA1, PasswordQ2, PasswordA2, '', Usertype, 'Active')
                 db.session.add(new_proctor)
                 db.session.commit()
                 flash("User Added")

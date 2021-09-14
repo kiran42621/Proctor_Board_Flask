@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-4">
           <label for="inputMobile" class="form-label">Mobile No.</label>
-          {{ form.Mobile(class_="form-control",id="Proc_Number",oninput="Validate_Number('Proc_Number','Number_Error')") }}
+          {{ form.Mobile(class_="form-control",type="Number",id="Proc_Number",oninput="Validate_Number('Proc_Number','Number_Error')") }}
           <span class="" id="Number_Error" style="color:red"></span>
           {% for errors in form.Mobile.errors %}
           <p style="font-family:serif;color:red">

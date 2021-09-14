@@ -53,8 +53,9 @@ def select(id):
             image = b64encode(Stu_Personal.Image).decode("utf-8")
             return render_template("PrincipalDisplay.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks, datameetings = Stu_Meeting, dataachievements = Stu_Achievements)
         else:
-            "No data found"
-    return "Else display"
+            flash("No data found")
+            return redirect(url_for('Principal.home'))
+    return redirect(url_for('Principal.home'))
 
 @Principals.route("/ForgotPassword", methods=['GET','POST'])
 def ForgotPassword():
@@ -96,9 +97,11 @@ def PrincipalLogin():
                 login_user(Proctor)
                 return redirect(url_for("Principal.PrincipalHome"))
             else :
-                return "Check Password"
+                flash("Check Password")
+                return redirect(url_for("Principal.PrincipalLogin"))
         else:
-            return "Check Username & Password"
+            flash("Check Username")
+            return redirect(url_for("Principal.PrincipalLogin"))
 
     else:
         return render_template("PrincipalLogin.html", form=principalloginform)

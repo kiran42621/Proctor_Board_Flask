@@ -232,12 +232,12 @@
             {{ errors }}
           </p>
         {% endfor %}</td>
-              <td>{{ form.SSLC_Year }}{% for errors in form.SSLC_Year.errors %}
+              <td>{{ form.SSLC_Year(type="Number") }}{% for errors in form.SSLC_Year.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
         {% endfor %}</td>
-              <td>{{ form.SSLC_Percentage }}{% for errors in form.SSLC_Percentage.errors %}
+              <td>{{ form.SSLC_Percentage(type="Number") }}{% for errors in form.SSLC_Percentage.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
@@ -250,12 +250,12 @@
             {{ errors }}
           </p>
         {% endfor %}</td>
-              <td>{{ form.PUC_Year }}{% for errors in form.PUC_Year.errors %}
+              <td>{{ form.PUC_Year(type="Number") }}{% for errors in form.PUC_Year.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
         {% endfor %}</td>
-              <td>{{ form.PUC_Percentage }}{% for errors in form.PUC_Percentage.errors %}
+              <td>{{ form.PUC_Percentage(type="Number") }}{% for errors in form.PUC_Percentage.errors %}
           <p style="font-family:serif;color:red">
             {{ errors }}
           </p>
@@ -277,11 +277,11 @@
         </div>
         <div class="col-6">
           <label class="form-label">Part-Time jobs <span>(If yes specify nature of job)</span></label>
-          <input type="text" class="form-control" id="">
+          <input type="text" class="form-control" id="Part_Time_Jobs" name="Part_Time_Jobs">
         </div>
         <div class="col-6">
           <label class="form-label">Future Plans</label>
-          <input type="text" class="form-control" id="inputAddress2">
+          <input type="text" class="form-control" id="Future_Plans" name="Future_Plans">
         </div>
         <!--- Password Details -->
         <h2>Password </h2>

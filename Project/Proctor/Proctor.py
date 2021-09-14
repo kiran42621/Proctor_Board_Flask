@@ -94,7 +94,7 @@ def ProctorHome():
     Announcements = app.Announcement.query.all()
     if Students:
         return render_template("ProctorHome.html", data=Students, count=0, data1 = Announcements)
-    return render_template("ProctorHome.html")
+    return render_template("ProctorHome.html", data=Students, count=0, data1 = Announcements)
 
 
 @Proctors.route("/ProctorMarks", methods=['post','get'])
@@ -232,8 +232,10 @@ def select(id):
             image = b64encode(Stu_Personal.Image).decode("utf-8")
             return render_template("ProctorGetReport.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks, datameetings = Stu_Meeting, dataachievements = Stu_Achievements)
         else:
-            "No data found"
-    return "Else display"
+            flash("No data found")
+            return redirect(url_for('Proctor.ProctorHome'))
+    flash("Else display")
+    return redirect(url_for('Proctor.ProctorHome'))
 
 @Proctors.route("/viewcertificate/<id>", methods = ['POST', 'GET'])
 @app.role_required("Proctor")

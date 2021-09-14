@@ -100,8 +100,9 @@ def select(id):
             image = b64encode(Stu_Personal.Image).decode("utf-8")
             return render_template("ChiefProctorGetReport.html", data = Stu_Personal, image=image, data2 = Stu_Family, datamarks = Stu_Marks, datameetings = Stu_Meeting, dataachievements = Stu_Achievements)
         else:
-            "No data found"
-    return "Else display"
+            flash("No data found")
+            return redirect(url_for('ChiefProctor.home'))
+    return redirect(url_for('ChiefProctor.home'))
 
 @ChiefProctors.route("/ShowProctors", methods=['POST','GET'])
 @login_required
@@ -155,9 +156,11 @@ def ChiefProctorLogin():
                 login_user(Proctor)
                 return redirect(url_for("ChiefProctor.home"))
             else:
-                return "Check Username & Password"
+                flash("Check Password")
+                return redirect(url_for("ChiefProctor.ChiefProctorLogin"))
         else:
-            return "Check Username & Password"
+            flash("Check Username")
+            return redirect(url_for("ChiefProctor.ChiefProctorLogin"))
 
     else:
         return render_template("ChiefProctorLogin.html", form=chiefproctorloginform)
